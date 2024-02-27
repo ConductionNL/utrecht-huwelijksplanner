@@ -338,7 +338,10 @@ export default function HuwelijksplannerStep0() {
                     id: "38d590d4-563d-4e5e-b822-d2eb598014c3",
                     marker: "6",
                     title: (
-                      <Link href="/voorgenomen-huwelijk/checken">Stap 6: Gemeente Utrecht controleert</Link>
+                      <Link href="/voorgenomen-huwelijk/checken">
+                        Stap 6: {typeof window !== "undefined" && window.sessionStorage.getItem("ORGANISATION_NAME")}{" "}
+                        controleert
+                      </Link>
                     ) as any,
                     meta: (
                       <Link

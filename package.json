@@ -16,6 +16,7 @@
     "clean": "rimraf .next/ src/generated/",
     "download": "curl --output src/openapi/openapi.yaml https://api.huwelijksplanner.online/openapi.yaml",
     "codegen": "openapi --exportCore true --useOptions --input src/openapi/openapi.yaml --output ./src/generated/ && mkdir -p ./src/generated/core/ && cp ./src/openapi/core/OpenAPI.ts ./src/generated/core/",
+    "codegenWindows": "openapi --exportCore true --useOptions --input .\\src\\openapi\\openapi.yaml --output .\\src\\generated\\ && mkdir -p .\\src\\generated\\core\\ && cp .\\src\\openapi\\core\\OpenAPI.ts .\\src\\generated\\core\\",
     "start": "next start",
     "lint-fix": "npm-run-all --continue-on-error lint-fix:** prettier",
     "lint-fix:css": "stylelint --fix '**/*.{css,scss}'",
@@ -35,6 +36,7 @@
     "watch:test": "NODE_OPTIONS=--experimental-vm-modules jest --watch src/"
   },
   "dependencies": {
+    "@conduction/theme": "1.1.22",
     "@gemeente-denhaag/design-tokens-components": "0.2.3-alpha.316",
     "@gemeente-denhaag/process-steps": "0.1.0-alpha.145",
     "@utrecht/assets": "1.0.0-alpha.147",

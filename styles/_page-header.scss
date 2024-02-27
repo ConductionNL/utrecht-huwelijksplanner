@@ -5,7 +5,7 @@
   --utrecht-logo-max-inline-size: var(--utrecht-page-header-logo-max-inline-size);
   --utrecht-logo-max-block-size: var(--utrecht-page-header-logo-max-block-size);
 
-  background-color: var(--utrecht-page-background-color);
+  background-color: var(--utrecht-page-background-color, var(--utrecht-page-header-background-color));
   display: grid;
   gap: 20px 0;
   grid-template-areas: "logo . lang" "nav nav nav";

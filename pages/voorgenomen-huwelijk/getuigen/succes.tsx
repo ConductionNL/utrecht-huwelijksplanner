@@ -73,7 +73,8 @@ export default function MultistepForm1() {
                 </Paragraph>
                 <OrderedList>
                   <OrderedListItem>
-                    De gemeente Utrecht checkt een aantal dingen, bijvoorbeeld of{" "}
+                    De {typeof window !== "undefined" && window.sessionStorage.getItem("ORGANISATION_NAME")} checkt een
+                    aantal dingen, bijvoorbeeld of{" "}
                     {voornaam ? <DataNoTranslate>{voornaam}</DataNoTranslate> : <>je partner</>} geen broer of zus van
                     je is
                   </OrderedListItem>

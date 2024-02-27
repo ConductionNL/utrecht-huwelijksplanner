@@ -39,6 +39,7 @@ import {
   Paragraph,
   URLValue,
   UtrechtLogo,
+  Logo,
 } from "../../../src/components";
 import { exampleState } from "../../../src/data/huwelijksplanner-state";
 
@@ -81,7 +82,7 @@ export default function ApplicantEmail() {
               </Paragraph>
               <Paragraph>Met vriendelijke groet,</Paragraph>
               <Address translate="no">
-                Gemeente Utrecht
+                {typeof window !== "undefined" && window.sessionStorage.getItem("ORGANISATION_NAME")}
                 <br />
                 Publiekszaken
                 <br />
@@ -89,9 +90,15 @@ export default function ApplicantEmail() {
                 <br />
                 Stadsplateau 1, 3521 AZ Utrecht
               </Address>
-              <Paragraph>
-                <UtrechtLogo />
-              </Paragraph>
+              {window.sessionStorage.getItem("NL_DESIGN_THEME_CLASSNAME") === "utrecht-theme" ? (
+                <Paragraph>
+                  <UtrechtLogo />
+                </Paragraph>
+              ) : (
+                <Paragraph>
+                  <Logo />
+                </Paragraph>
+              )}
             </PageContentMain>
           </PageContent>
         </Page>
