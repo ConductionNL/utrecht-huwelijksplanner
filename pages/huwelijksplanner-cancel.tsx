@@ -30,7 +30,11 @@ export default function MultistepForm1() {
   const data = { ...exampleState };
 
   if (!data.cancelable) {
-    return <Paragraph>Huwelijk kan niet on-line geannuleerd worden. Neem contact op met Gemeente Utrecht.</Paragraph>;
+    return (
+      <Paragraph>
+        Huwelijk kan niet on-line geannuleerd worden. Neem contact op met {process.env.NEXT_PUBLIC_ORGANISATION_NAME}.
+      </Paragraph>
+    );
   }
   return (
     <Surface>
@@ -47,8 +51,8 @@ export default function MultistepForm1() {
               <form method="POST" action="/api/huwelijksplanner-cancel">
                 <Heading1>{t("huwelijksplanner-cancel:heading-1")}</Heading1>
                 <Paragraph>
-                  De gemeente Utrecht brengt geen kosten in rekening: je krijgt het volledige bedrag voor de reservering
-                  teruggestort op je rekening.
+                  De {process.env.NEXT_PUBLIC_ORGANISATION_NAME} brengt geen kosten in rekening: je krijgt het volledige
+                  bedrag voor de reservering teruggestort op je rekening.
                 </Paragraph>
                 <Paragraph id="cancel-warning">Weet je zeker dat je het voorgenomen huwelijk wil annuleren?</Paragraph>
                 <ButtonGroup>

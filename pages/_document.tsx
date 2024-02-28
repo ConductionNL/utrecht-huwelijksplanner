@@ -5,6 +5,7 @@ export default function Document() {
     <Html>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="svg" href={process.env.NEXT_PUBLIC_FAV_ICON} />
       </Head>
       <body>
         <Main />

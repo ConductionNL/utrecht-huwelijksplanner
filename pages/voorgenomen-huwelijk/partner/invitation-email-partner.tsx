@@ -23,7 +23,6 @@
 
 import { UtrechtDigidButton, UtrechtIconArrow } from "@utrecht/web-component-library-react";
 import Head from "next/head";
-import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import {
@@ -33,12 +32,12 @@ import {
   Document,
   Email,
   Heading1,
+  Logo,
   Page,
   PageContent,
   PageContentMain,
   Paragraph,
   URLValue,
-  UtrechtLogo,
 } from "../../../src/components";
 import { exampleState } from "../../../src/data/huwelijksplanner-state";
 
@@ -81,7 +80,7 @@ export default function ApplicantEmail() {
               </Paragraph>
               <Paragraph>Met vriendelijke groet,</Paragraph>
               <Address translate="no">
-                Gemeente Utrecht
+                {process.env.NEXT_PUBLIC_ORGANISATION_NAME}
                 <br />
                 Publiekszaken
                 <br />
@@ -89,8 +88,9 @@ export default function ApplicantEmail() {
                 <br />
                 Stadsplateau 1, 3521 AZ Utrecht
               </Address>
+
               <Paragraph>
-                <UtrechtLogo />
+                <Logo />
               </Paragraph>
             </PageContentMain>
           </PageContent>
