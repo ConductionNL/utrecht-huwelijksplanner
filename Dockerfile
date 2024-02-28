@@ -15,6 +15,9 @@ ARG NODE_ENV
 ARG NPM_REGISTRY
 ARG NPM_STRICT_SSL
 ARG NPM_TOKEN
+ARG NEXT_PUBLIC_API_URL
+
+RUN echo $NEXT_PUBLIC_API_URL
 
 RUN if test "$NODE_ENV" = 'development'; \
 then \
@@ -33,7 +36,7 @@ ADD ./ /var/www/
 RUN if test "$NODE_ENV" != 'development'; \
 then \
     npm config set "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}" \
-    && NODE_ENV=development npm ci --no-update-notifier \
+    && NODE_ENV=development && npm ci --no-update-notifier \
     && npm run build \
     && npm prune \
     && npm config set "//registry.npmjs.org/:_authToken" "" \
