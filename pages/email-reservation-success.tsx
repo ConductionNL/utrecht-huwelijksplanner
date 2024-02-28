@@ -8,12 +8,12 @@ import {
   Document,
   Email,
   Heading1,
+  Logo,
   Page,
   PageContent,
   PageContentMain,
   Paragraph,
   URLValue,
-  Logo,
 } from "../src/components";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({

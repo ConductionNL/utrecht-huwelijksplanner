@@ -23,7 +23,6 @@
 
 import { UtrechtDigidButton, UtrechtIconArrow } from "@utrecht/web-component-library-react";
 import Head from "next/head";
-import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import {
@@ -33,12 +32,12 @@ import {
   Document,
   Email,
   Heading1,
+  Logo,
   Page,
   PageContent,
   PageContentMain,
   Paragraph,
   URLValue,
-  Logo,
 } from "../../../src/components";
 import { exampleState } from "../../../src/data/huwelijksplanner-state";
 

@@ -17,7 +17,7 @@ export const PageFooterTemplate = () => {
 
         {data &&
           data?.content.map((item: any, idx: number) => (
-            <section>
+            <section key={idx}>
               <h3 className="utrecht-heading-3 utrecht-heading-3--distanced">{item.title}</h3>
               <p className="utrecht-paragraph utrecht-paragraph--distanced">
                 {item.title === "Telefoon" && (

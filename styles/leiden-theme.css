@@ -38,12 +38,9 @@
   --utrecht-skip-link-padding-inline-end: var(--utrecht-button-padding-inline-end);
   --utrecht-skip-link-padding-inline-start: var(--utrecht-button-padding-inline-start);
   --utrecht-spotlight-section-margin-block-start: var(--utrecht-space-block-md);
-  /* --utrecht-typography-sans-serif-font-family: "Lucida Grande", "Arial", sans-serif; */
   --utrecht-unordered-list-margin-block-start: var(--utrecht-space-block-md);
-
   --utrecht-page-content-padding-block-start: var(--leiden-size-lg);
   --utrecht-page-content-padding-block-end: var(--leiden-size-lg);
   --utrecht-paragraph-margin-block-start: var(--leiden-size-md) !important;
-
   --utrecht-icon-size: 48px;
 }
