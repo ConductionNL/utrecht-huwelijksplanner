@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST={"../node_modules/@utrecht/web-component-library-stencil/dist/esm/polyfills/index.js -> ./core-js.js":{id:null,files:[]},"../node_modules/@utrecht/web-component-library-stencil/dist/esm/polyfills/index.js -> ./dom.js":{id:null,files:[]}};

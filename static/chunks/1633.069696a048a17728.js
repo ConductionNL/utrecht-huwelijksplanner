@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[1633],{1633:function(r,t,e){e.r(t),e.d(t,{utrecht_table_body:function(){return u}});var s=e(1828);let u=class{constructor(r){(0,s.r)(this,r)}render(){return(0,s.h)(s.H,{role:"rowgroup"},(0,s.h)("slot",null))}};u.style=":host{display:table-row-group}"}}]);
