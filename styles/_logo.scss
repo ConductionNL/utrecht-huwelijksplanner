@@ -1,0 +1,27 @@
+.utrecht-logo__container {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.utrecht-logo__container-header {
+  inline-size: var(--conduction-logo-header-inline-size);
+  block-size: var(--conduction-logo-header-block-size);
+  background-image: var(--conduction-logo-header-background-image);
+}
+
+.utrecht-logo__container-footer {
+  inline-size: var(--conduction-logo-footer-inline-size);
+  block-size: var(--conduction-logo-footer-block-size);
+  background-image: var(--conduction-logo-footer-background-image);
+}
+
+.utrecht-logo__container-navbar {
+  inline-size: var(--conduction-logo-navbar-inline-size);
+  block-size: var(--conduction-logo-navbar-block-size);
+  background-image: var(--conduction-logo-navbar-background-image);
+}
+
+.utrecht-logo__container-clickable:hover {
+  cursor: pointer;
+}

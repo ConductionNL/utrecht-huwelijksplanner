@@ -6,7 +6,7 @@ import "@utrecht/component-library-css/dist/index.css";
 import "@utrecht/component-library-css/dist/html.css";
 import { useEffect } from "react";
 import "../styles/globals.scss";
-import "../styles/utrecht-theme.css";
+import "./index.css";
 import { MarriageOptionsProvider } from "../src/context/MarriageOptionsContext";
 import { matomo } from "../src/matomo";
 
@@ -21,7 +21,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   return (
-    <div className={clsx("example-debugging-disabled", "utrecht-theme")}>
+    <div className={clsx("example-debugging-disabled", process.env.NEXT_PUBLIC_NL_DESIGN_THEME_CLASSNAME)}>
       <MarriageOptionsProvider>
         <Component {...pageProps} />
       </MarriageOptionsProvider>

@@ -73,7 +73,7 @@ export default function MultistepForm1() {
                 </Paragraph>
                 <OrderedList>
                   <OrderedListItem>
-                    De gemeente Utrecht checkt een aantal dingen, bijvoorbeeld of{" "}
+                    De {process.env.NEXT_PUBLIC_ORGANISATION_NAME} checkt een aantal dingen, bijvoorbeeld of{" "}
                     {voornaam ? <DataNoTranslate>{voornaam}</DataNoTranslate> : <>je partner</>} geen broer of zus van
                     je is
                   </OrderedListItem>
