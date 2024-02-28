@@ -339,8 +339,7 @@ export default function HuwelijksplannerStep0() {
                     marker: "6",
                     title: (
                       <Link href="/voorgenomen-huwelijk/checken">
-                        Stap 6: {typeof window !== "undefined" && window.sessionStorage.getItem("ORGANISATION_NAME")}{" "}
-                        controleert
+                        Stap 6: {process.env.NEXT_PUBLIC_ORGANISATION_NAME} controleert
                       </Link>
                     ) as any,
                     meta: (

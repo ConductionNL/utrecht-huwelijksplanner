@@ -8,7 +8,7 @@ export default function Document() {
         <link
           rel="icon"
           type="svg"
-          href="https://gemeente.leiden.nl/typo3conf/ext/leiden_template/Resources/Public/Images/favicon/favicon-96x96.png"
+          href={process.env.NEXT_PUBLIC_FAV_ICON}
         />
       </Head>
       <body>

@@ -40,4 +40,7 @@
   --utrecht-spotlight-section-margin-block-start: var(--utrecht-space-block-md);
   --utrecht-typography-sans-serif-font-family: "Lucida Grande", "Arial", sans-serif;
   --utrecht-unordered-list-margin-block-start: var(--utrecht-space-block-md);
+  --conduction-logo-header-background-image: url("https://www.utrecht.nl/typo3conf/ext/alternet_sitepackage/Resources/Public/Images/svg/wapen-utrecht-rood.svg");
+  --conduction-logo-header-block-size: 108px;
+  --conduction-logo-header-inline-size: 188px;
 }

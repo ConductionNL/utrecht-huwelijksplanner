@@ -261,8 +261,11 @@ export default function MultistepForm1() {
                       {...register("email", { required: true })}
                     />
                   </FormField>
-                  <DeclarationCheckboxGroup                     onChange={onDeclarationCheckboxChange}
- register={register} checkboxData={checkboxData} />
+                  <DeclarationCheckboxGroup
+                    onChange={onDeclarationCheckboxChange}
+                    register={register}
+                    checkboxData={checkboxData}
+                  />
                   <Button
                     type="submit"
                     disabled={loading || !declarationCheckboxChecked}
@@ -357,7 +360,7 @@ export const DeclarationCheckboxGroup = ({ checkboxData, register, onChange }: D
         checkboxData.length > 0 &&
         checkboxData.map(({ id, label, value }, index) => (
           <FormField key={index} type="checkbox">
-            <Checkbox2 novalidate id={id}   {...register(value, { onChange: onChange, required: true })} />
+            <Checkbox2 novalidate id={id} {...register(value, { onChange: onChange, required: true })} />
             <FormLabel htmlFor={id} type="checkbox">
               {label}
             </FormLabel>

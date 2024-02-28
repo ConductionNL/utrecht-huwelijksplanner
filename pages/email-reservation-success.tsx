@@ -13,7 +13,6 @@ import {
   PageContentMain,
   Paragraph,
   URLValue,
-  UtrechtLogo,
   Logo,
 } from "../src/components";
 
@@ -70,7 +69,7 @@ export default function HuwelijksplannerStep0() {
               </Paragraph>
               <Paragraph>Met vriendelijke groet,</Paragraph>
               <Address translate="no">
-                {typeof window !== "undefined" && window.sessionStorage.getItem("ORGANISATION_NAME")}
+                {process.env.NEXT_PUBLIC_ORGANISATION_NAME}
                 <br />
                 Publiekszaken
                 <br />
@@ -78,15 +77,10 @@ export default function HuwelijksplannerStep0() {
                 <br />
                 Stadsplateau 1, 3521 AZ Utrecht
               </Address>
-              {window.sessionStorage.getItem("NL_DESIGN_THEME_CLASSNAME") === "utrecht-theme" ? (
-                <Paragraph>
-                  <UtrechtLogo />
-                </Paragraph>
-              ) : (
-                <Paragraph>
-                  <Logo />
-                </Paragraph>
-              )}
+
+              <Paragraph>
+                <Logo />
+              </Paragraph>
             </PageContentMain>
           </PageContent>
         </Page>

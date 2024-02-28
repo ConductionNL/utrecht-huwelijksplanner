@@ -8,16 +8,12 @@ import { footerData } from "../../data/footer-data";
 export const PageFooterTemplate = () => {
   const data =
     typeof window !== "undefined" &&
-    footerData.find(
-      (data: any) => data.theme === window.sessionStorage.getItem("NL_DESIGN_THEME_CLASSNAME") ?? "utrecht-theme"
-    );
+    footerData.find((data: any) => data.theme === process.env.NEXT_PUBLIC_NL_DESIGN_THEME_CLASSNAME ?? "utrecht-theme");
 
   return (
     <>
       <address className="utrecht-page-footer__address utrecht-page-footer__address--reset-address">
-        <h2 className="utrecht-heading-2 utrecht-heading-2--reset-h2">
-          {typeof window !== "undefined" && window.sessionStorage.getItem("ORGANISATION_NAME")}
-        </h2>
+        <h2 className="utrecht-heading-2 utrecht-heading-2--reset-h2">{process.env.NEXT_PUBLIC_ORGANISATION_NAME}</h2>
 
         {data &&
           data?.content.map((item: any, idx: number) => (

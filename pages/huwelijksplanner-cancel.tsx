@@ -32,8 +32,7 @@ export default function MultistepForm1() {
   if (!data.cancelable) {
     return (
       <Paragraph>
-        Huwelijk kan niet on-line geannuleerd worden. Neem contact op met{" "}
-        {typeof window !== "undefined" && window.sessionStorage.getItem("ORGANISATION_NAME")}.
+        Huwelijk kan niet on-line geannuleerd worden. Neem contact op met {process.env.NEXT_PUBLIC_ORGANISATION_NAME}.
       </Paragraph>
     );
   }
@@ -52,8 +51,8 @@ export default function MultistepForm1() {
               <form method="POST" action="/api/huwelijksplanner-cancel">
                 <Heading1>{t("huwelijksplanner-cancel:heading-1")}</Heading1>
                 <Paragraph>
-                  De {typeof window !== "undefined" && window.sessionStorage.getItem("ORGANISATION_NAME")} brengt geen
-                  kosten in rekening: je krijgt het volledige bedrag voor de reservering teruggestort op je rekening.
+                  De {process.env.NEXT_PUBLIC_ORGANISATION_NAME} brengt geen kosten in rekening: je krijgt het volledige
+                  bedrag voor de reservering teruggestort op je rekening.
                 </Paragraph>
                 <Paragraph id="cancel-warning">Weet je zeker dat je het voorgenomen huwelijk wil annuleren?</Paragraph>
                 <ButtonGroup>
