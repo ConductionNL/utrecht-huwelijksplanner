@@ -24,7 +24,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { useCallback, useContext, useEffect, useId, useRef, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useContext, useEffect, useId, useRef, useState } from "react";
 import { useForm, UseFormRegister } from "react-hook-form";
 import Skeleton from "react-loading-skeleton";
 import { Aside, Checkbox2, PageContentMain, ReservationCard } from "../../src/components";
@@ -55,6 +55,13 @@ type FormData = {
 
 export default function MultistepForm1() {
   const { t } = useTranslation(["common", "huwelijksplanner-step-4", "form"]);
+  const [declarationCheckboxData, setDeclarationCheckboxData] = useState<any>({
+    "correct-information-and-complete": false,
+    "not-marrying-relative": false,
+    unmarried: false,
+  });
+  const [declarationCheckboxChecked, setDeclarationCheckboxChecked] = useState<boolean>(false);
+
   const {
     query: { huwelijkId },
     locale = "nl",
@@ -67,6 +74,18 @@ export default function MultistepForm1() {
   const [loading, setLoading] = useState(false);
   const pageInitialized = useRef(false);
   const invalidStateDescriptionId = useId();
+
+  useEffect(() => {
+    if (
+      declarationCheckboxData["correct-information-and-complete"] === true &&
+      declarationCheckboxData["not-marrying-relative"] === true &&
+      declarationCheckboxData["unmarried"] === true
+    ) {
+      setDeclarationCheckboxChecked(true);
+    } else {
+      setDeclarationCheckboxChecked(false);
+    }
+  }, [declarationCheckboxData]);
 
   const initializeMarriage = useCallback(() => {
     if (!reservation) return;
@@ -142,7 +161,7 @@ export default function MultistepForm1() {
       });
     } else {
       AssentService.assentPatchItem({
-        id: marriageOptions.partners[0]._self.id as string,
+        id: persoonData?.id as string,
         requestBody: {
           requester: getBsnFromJWT(),
           contact: {
@@ -159,6 +178,10 @@ export default function MultistepForm1() {
         setLoading(false);
       });
     }
+  };
+
+  const onDeclarationCheckboxChange = (event: any) => {
+    setDeclarationCheckboxData({ ...declarationCheckboxData, [event.target.name]: event.target.checked });
   };
 
   return (
@@ -238,10 +261,11 @@ export default function MultistepForm1() {
                       {...register("email", { required: true })}
                     />
                   </FormField>
-                  <DeclarationCheckboxGroup register={register} checkboxData={checkboxData} />
+                  <DeclarationCheckboxGroup                     onChange={onDeclarationCheckboxChange}
+ register={register} checkboxData={checkboxData} />
                   <Button
                     type="submit"
-                    disabled={loading}
+                    disabled={loading || !declarationCheckboxChecked}
                     name="type"
                     appearance="primary-action-button"
                     aria-describedby={invalidStateDescriptionId}
@@ -323,16 +347,17 @@ const checkboxData: CheckboxData[] = [
 interface DeclarationCheckboxGroupProps {
   checkboxData: CheckboxData[];
   register: UseFormRegister<FormData>;
+  onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
-export const DeclarationCheckboxGroup = ({ checkboxData, register }: DeclarationCheckboxGroupProps) => {
+export const DeclarationCheckboxGroup = ({ checkboxData, register, onChange }: DeclarationCheckboxGroupProps) => {
   return (
     <Fieldset>
       {checkboxData &&
         checkboxData.length > 0 &&
         checkboxData.map(({ id, label, value }, index) => (
           <FormField key={index} type="checkbox">
-            <Checkbox2 novalidate id={id} {...register(value, { required: true })} />
+            <Checkbox2 novalidate id={id}   {...register(value, { onChange: onChange, required: true })} />
             <FormLabel htmlFor={id} type="checkbox">
               {label}
             </FormLabel>

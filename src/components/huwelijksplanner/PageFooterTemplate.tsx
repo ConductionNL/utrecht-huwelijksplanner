@@ -9,7 +9,7 @@ export const PageFooterTemplate = () => {
   const data =
     typeof window !== "undefined" &&
     footerData.find(
-      (data) => data.theme === window.sessionStorage.getItem("NL_DESIGN_THEME_CLASSNAME") ?? "utrecht-theme"
+      (data: any) => data.theme === window.sessionStorage.getItem("NL_DESIGN_THEME_CLASSNAME") ?? "utrecht-theme"
     );
 
   return (
