@@ -15,7 +15,7 @@ const mapToCeremonyData = (products: SDGProduct): CeremonyData[] => {
     id: ceremony.id as string,
     type: ceremony.upnLabel as string,
     locationId: ceremony.gerelateerdeProducten[0].id,
-    ambtenaarId: ceremony.gerelateerdeProducten[0].gerelateerdeProducten[0].id,
+    // ambtenaarId: ceremony.gerelateerdeProducten[0]?.gerelateerdeProducten[0]?.id,
   }));
 };
 

@@ -19,7 +19,7 @@ import {
   Surface,
   Textbox,
 } from "@utrecht/component-library-react";
-import { addMinutes } from "date-fns";
+import { addMinutes, format } from "date-fns";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -38,6 +38,7 @@ import { resolveEmbedded } from "../../src/embedded";
 import { AssentService, HuwelijkService } from "../../src/generated";
 import { useIngeschrevenpersoonGetByBsn } from "../../src/hooks/useIngeschrevenpersoonGetByBsn";
 import { getBsnFromJWT } from "../../src/openapi/authentication";
+import { v4 as uuidv4 } from "uuid";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -71,9 +72,52 @@ export default function MultistepForm1() {
   const [marriageOptions, setMarriageOptions] = useContext(MarriageOptionsContext);
   const [persoonData] = useIngeschrevenpersoonGetByBsn(getBsnFromJWT());
   const { reservation, ambtenaar, productId } = marriageOptions;
+
+  const [huwelijkIdCreate, setHuwelijkIdCreate] = useState<string | null | undefined>(marriageOptions.id);
+  const [testPersoon, setTestPersoon] = useState(persoonData);
+  const [loadingType, setLoadingType] = useState(false);
+  const [loadingCeremonie, setLoadingCeremonie] = useState(false);
+  const [loadingMoment, setLoadingMoment] = useState(false);
+  const [loadingAmbtenaar, setLoadingAmbtenaar] = useState(false);
+  const [loadingLocatie, setLoadingLocatie] = useState(false);
   const [loading, setLoading] = useState(false);
   const pageInitialized = useRef(false);
   const invalidStateDescriptionId = useId();
+
+
+  // console.log(persoonData)
+
+  useEffect(() => {
+    if (
+      loadingType === true &&
+      loadingCeremonie === true &&
+      loadingMoment === true &&
+      loadingAmbtenaar === true &&
+      loadingLocatie === true
+    ) {
+      setLoading(false);
+      // setMarriageOptions({
+      //         ...marriageOptions,
+      //         id: result._id || "",
+      //         partners: [...result.partners],
+      //         reservation: {
+      //           ...reservation,
+      //           "ceremony-end": addMinutes(new Date(result.moment || ""), 15).toString(),
+      //           "ceremony-price-currency": result.kosten?.split(" ")[0] || "EUR",
+      //           "ceremony-price-amount": result.kosten?.split(" ")[1] || "-",
+      //         },
+      //       });
+      HuwelijkService.huwelijkGet(huwelijkIdCreate ?? " ").then((response) => console.log("get", { response }));
+
+    } else {
+      setLoading(true);
+    }
+  }, [loadingType, loadingCeremonie, loadingMoment, loadingAmbtenaar, loadingLocatie]);
+
+
+
+
+
 
   useEffect(() => {
     if (
@@ -102,24 +146,89 @@ export default function MultistepForm1() {
       },
     };
 
-    HuwelijkService.huwelijkPostItem(postBody)
+    const postHuwelijk = {
+      identificatie: uuidv4(),
+      bronorganisatie: "unknown",
+      omschrijving: `Test ${format(new Date(), "HH:mm:ss")} huwelijk`,
+      toelichting: `Test ${format(new Date(), "HH:mm:ss")} huwelijk`,
+      zaaktype: "https://api.huwelijksplanner.online/api/ztc/v1/zaaktypen/4af1c0ea-12b7-4e23-8913-b3effc047951",
+      verantwoordelijkeOrganisatie: null,
+      startdatum: format(new Date(), "yyyy-MM-dd"),
+    };
+
+    HuwelijkService.huwelijkCreate(postHuwelijk)
       .then((response) => {
-        const result = resolveEmbedded(response) as HuwelijkWithId;
-        setMarriageOptions({
-          ...marriageOptions,
-          id: result._id || "",
-          partners: [...result.partners],
-          reservation: {
-            ...reservation,
-            "ceremony-end": addMinutes(new Date(result.moment || ""), 15).toString(),
-            "ceremony-price-currency": result.kosten?.split(" ")[0] || "EUR",
-            "ceremony-price-amount": result.kosten?.split(" ")[1] || "-",
-          },
+        setHuwelijkIdCreate(response.id);
+
+        HuwelijkService.huwelijkPostEigenschap(
+          response.id ?? "",
+          "a2f2bce4-3877-4ad9-833e-5241c3a71cab",
+          productId ?? ""
+        ).finally(() => {
+          setLoadingType(true);
         });
+
+        HuwelijkService.huwelijkPostEigenschap(
+          response.id ?? "",
+          "d63af89f-0ee7-4b26-b07d-0faf02d34b51",
+          reservation["ceremony-id"] ?? ""
+        ).finally(() => {
+          setLoadingCeremonie(true);
+        });
+
+        HuwelijkService.huwelijkPostEigenschap(
+          response.id ?? "",
+          "f81cb98c-233c-4b8d-9de3-4ecc93032012",
+          reservation["ceremony-start"] ?? ""
+        ).finally(() => {
+          setLoadingMoment(true);
+        });
+
+        HuwelijkService.huwelijkPostEigenschap(
+          response.id ?? "",
+          "1f8e3903-ca20-4b34-a46a-aef0cc16eb19",
+          ambtenaar ?? ""
+        ).finally(() => {
+          setLoadingAmbtenaar(true);
+        });
+
+        HuwelijkService.huwelijkPostEigenschap(
+          response.id ?? "",
+          "745d85cc-8972-43b9-916e-c268bf87d750",
+          reservation["ceremony-location"] ?? ""
+        ).finally(() => {
+          setLoadingLocatie(true);
+        });
+
+        HuwelijkService.huwelijkPostEigenschap(
+          response.id ?? "",
+          "4dee2797-1faf-4dc0-95f8-ddc4956302f3",
+          getBsnFromJWT() ?? ""
+        ).finally(() => {
+          setLoadingLocatie(true);
+        });
+
       })
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => {});
+
+    // HuwelijkService.huwelijkPostItem(postBody)
+    //   .then((response) => {
+    //     const result = resolveEmbedded(response) as HuwelijkWithId;
+    //     setMarriageOptions({
+    //       ...marriageOptions,
+    //       id: result._id || "",
+    //       partners: [...result.partners],
+    //       reservation: {
+    //         ...reservation,
+    //         "ceremony-end": addMinutes(new Date(result.moment || ""), 15).toString(),
+    //         "ceremony-price-currency": result.kosten?.split(" ")[0] || "EUR",
+    //         "ceremony-price-amount": result.kosten?.split(" ")[1] || "-",
+    //       },
+    //     });
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
   }, [ambtenaar, marriageOptions, productId, reservation, setMarriageOptions]);
 
   useEffect(() => {

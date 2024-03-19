@@ -3,12 +3,20 @@
  * Copyright (c) 2021 Robbert Broersma
  */
 
+import * as React from "react";
 import { footerData } from "../../data/footer-data";
 
 export const PageFooterTemplate = () => {
-  const data =
+  const [data, setData] = React.useState<any>(footerData.find((data: any) => data.theme === "utrecht-theme"));
+
+  React.useEffect(() => {
     typeof window !== "undefined" &&
-    footerData.find((data: any) => data.theme === process.env.NEXT_PUBLIC_NL_DESIGN_THEME_CLASSNAME ?? "utrecht-theme");
+      setData(
+        footerData.find(
+          (data: any) => data.theme === process.env.NEXT_PUBLIC_NL_DESIGN_THEME_CLASSNAME ?? "utrecht-theme"
+        )
+      );
+  }, []);
 
   return (
     <>
@@ -29,11 +37,11 @@ export const PageFooterTemplate = () => {
                 {item.title !== "Telefoon" &&
                   item.subItems &&
                   item.subItems.map((subItem: any, idx: number) => (
-                    <>
+                    <React.Fragment key={idx}>
                       <strong>{subItem.title}</strong>
                       <br />
                       {subItem.value}
-                    </>
+                    </React.Fragment>
                   ))}
               </p>
             </section>
