@@ -109,7 +109,8 @@ export default function MultistepForm1() {
                   </Paragraph>
                   <Paragraph>
                     <UtrechtLink href="/" external>
-                      Trouwen of partnerschap registreren in Utrecht
+                      Trouwen of partnerschap registreren in{" "}
+                      {process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"}
                     </UtrechtLink>
                   </Paragraph>
                 </Aside>

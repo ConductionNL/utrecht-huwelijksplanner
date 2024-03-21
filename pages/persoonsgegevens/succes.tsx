@@ -35,7 +35,8 @@ export default function MultistepForm1() {
   const { t } = useTranslation(["common", "huwelijksplanner-step-5", "form"]);
   const [marriageOptions] = useContext(MarriageOptionsContext);
   const { locale = "nl" } = useRouter();
-  const contact = marriageOptions.partners[0]?.contact;
+  const partner = JSON.parse(marriageOptions.partners[0]?.toString());
+  const contact = partner?.naam;
 
   return (
     <Surface>
@@ -69,8 +70,8 @@ export default function MultistepForm1() {
                   <Heading2>Gelukt</Heading2>
                   <Paragraph>
                     We hebben jouw gegevens gekoppeld aan die van{" "}
-                    <DataNoTranslate>{`${contact.voornaam} ${contact.achternaam}`}</DataNoTranslate>. Jullie kunnen nu
-                    verder gaan met het plannen van jullie huwelijk.
+                    <DataNoTranslate>{`${contact.voornamen} ${contact.geslachtsnaam}`}</DataNoTranslate>. Jullie kunnen
+                    nu verder gaan met het plannen van jullie huwelijk.
                   </Paragraph>
                   <ButtonGroup>
                     <ButtonLink appearance="primary-action-button" href="/voorgenomen-huwelijk/getuigen">

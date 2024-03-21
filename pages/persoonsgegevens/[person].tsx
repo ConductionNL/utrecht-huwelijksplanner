@@ -74,18 +74,29 @@ export default function MultistepForm1() {
   const { reservation, ambtenaar, productId } = marriageOptions;
 
   const [huwelijkIdCreate, setHuwelijkIdCreate] = useState<string | null | undefined>(marriageOptions.id);
-  const [testPersoon, setTestPersoon] = useState(persoonData);
   const [loadingType, setLoadingType] = useState(false);
   const [loadingCeremonie, setLoadingCeremonie] = useState(false);
   const [loadingMoment, setLoadingMoment] = useState(false);
   const [loadingAmbtenaar, setLoadingAmbtenaar] = useState(false);
   const [loadingLocatie, setLoadingLocatie] = useState(false);
+  const [loadingKosten, setLoadingKosten] = useState(false);
+  const [loadingPartner, setLoadingPartner] = useState(false);
   const [loading, setLoading] = useState(false);
   const pageInitialized = useRef(false);
   const invalidStateDescriptionId = useId();
 
-
-  // console.log(persoonData)
+  const getCosts = (reservation: any) => {
+    switch (reservation["ceremony-type"]) {
+      case "gratis trouwen":
+        return "EUR 0.00";
+      case "flits/baliehuwelijk":
+        return "EUR 32.50";
+      case "eenvoudig huwelijk":
+        return "EUR 220.00";
+      default:
+        return "EUR 0.00";
+    }
+  };
 
   useEffect(() => {
     if (
@@ -93,31 +104,43 @@ export default function MultistepForm1() {
       loadingCeremonie === true &&
       loadingMoment === true &&
       loadingAmbtenaar === true &&
-      loadingLocatie === true
+      loadingLocatie === true &&
+      loadingKosten === true &&
+      loadingPartner === true &&
+      !huwelijkId
     ) {
-      setLoading(false);
-      // setMarriageOptions({
-      //         ...marriageOptions,
-      //         id: result._id || "",
-      //         partners: [...result.partners],
-      //         reservation: {
-      //           ...reservation,
-      //           "ceremony-end": addMinutes(new Date(result.moment || ""), 15).toString(),
-      //           "ceremony-price-currency": result.kosten?.split(" ")[0] || "EUR",
-      //           "ceremony-price-amount": result.kosten?.split(" ")[1] || "-",
-      //         },
-      //       });
-      HuwelijkService.huwelijkGet(huwelijkIdCreate ?? " ").then((response) => console.log("get", { response }));
+      HuwelijkService.huwelijkGet(huwelijkIdCreate ?? " ").then((response: any) => {
+        if (!reservation) return;
 
+        const partner = response.results.find(
+          (result: any) =>
+            result.eigenschap ===
+            "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3"
+        );
+
+        const moment = response.results.find(
+          (result: any) =>
+            result.eigenschap ===
+            "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/f81cb98c-233c-4b8d-9de3-4ecc93032012"
+        );
+
+        setMarriageOptions({
+          ...marriageOptions,
+          id: huwelijkIdCreate || "",
+          partners: [partner.waarde],
+          reservation: {
+            ...reservation,
+            "ceremony-end": addMinutes(new Date(moment.waarde || ""), 15).toString(),
+            "ceremony-price-currency": getCosts(reservation).split(" ")[0] || "EUR",
+            "ceremony-price-amount": getCosts(reservation).split(" ")[1] || "-",
+          },
+        });
+        setLoading(false);
+      });
     } else {
-      setLoading(true);
+      !huwelijkId && setLoading(true);
     }
-  }, [loadingType, loadingCeremonie, loadingMoment, loadingAmbtenaar, loadingLocatie]);
-
-
-
-
-
+  }, [loadingType, loadingCeremonie, loadingMoment, loadingAmbtenaar, loadingLocatie, loadingKosten, loadingPartner]);
 
   useEffect(() => {
     if (
@@ -136,16 +159,6 @@ export default function MultistepForm1() {
 
     setLoading(true);
 
-    const postBody = {
-      requestBody: {
-        type: productId,
-        ceremonie: reservation["ceremony-id"],
-        moment: reservation["ceremony-start"],
-        ambtenaar: ambtenaar,
-        locatie: reservation["ceremony-location"],
-      },
-    };
-
     const postHuwelijk = {
       identificatie: uuidv4(),
       bronorganisatie: "unknown",
@@ -160,6 +173,7 @@ export default function MultistepForm1() {
       .then((response) => {
         setHuwelijkIdCreate(response.id);
 
+        // ID
         HuwelijkService.huwelijkPostEigenschap(
           response.id ?? "",
           "a2f2bce4-3877-4ad9-833e-5241c3a71cab",
@@ -168,6 +182,7 @@ export default function MultistepForm1() {
           setLoadingType(true);
         });
 
+        // Ceremonie
         HuwelijkService.huwelijkPostEigenschap(
           response.id ?? "",
           "d63af89f-0ee7-4b26-b07d-0faf02d34b51",
@@ -176,6 +191,7 @@ export default function MultistepForm1() {
           setLoadingCeremonie(true);
         });
 
+        // Moment
         HuwelijkService.huwelijkPostEigenschap(
           response.id ?? "",
           "f81cb98c-233c-4b8d-9de3-4ecc93032012",
@@ -184,6 +200,7 @@ export default function MultistepForm1() {
           setLoadingMoment(true);
         });
 
+        // Ambtenaar
         HuwelijkService.huwelijkPostEigenschap(
           response.id ?? "",
           "1f8e3903-ca20-4b34-a46a-aef0cc16eb19",
@@ -192,6 +209,7 @@ export default function MultistepForm1() {
           setLoadingAmbtenaar(true);
         });
 
+        // Location
         HuwelijkService.huwelijkPostEigenschap(
           response.id ?? "",
           "745d85cc-8972-43b9-916e-c268bf87d750",
@@ -200,45 +218,37 @@ export default function MultistepForm1() {
           setLoadingLocatie(true);
         });
 
+        // Kosten
+        HuwelijkService.huwelijkPostEigenschap(
+          huwelijkIdCreate ?? "",
+          "416de8b8-d5d1-4f44-9a1e-1846d552292c",
+          getCosts(reservation) ?? ""
+        ).finally(() => {
+          setLoadingKosten(true);
+        });
+
+        // Partner
         HuwelijkService.huwelijkPostEigenschap(
           response.id ?? "",
           "4dee2797-1faf-4dc0-95f8-ddc4956302f3",
-          getBsnFromJWT() ?? ""
+          JSON.stringify(persoonData) ?? ""
         ).finally(() => {
-          setLoadingLocatie(true);
+          setLoadingPartner(true);
         });
-
       })
-      .finally(() => {});
-
-    // HuwelijkService.huwelijkPostItem(postBody)
-    //   .then((response) => {
-    //     const result = resolveEmbedded(response) as HuwelijkWithId;
-    //     setMarriageOptions({
-    //       ...marriageOptions,
-    //       id: result._id || "",
-    //       partners: [...result.partners],
-    //       reservation: {
-    //         ...reservation,
-    //         "ceremony-end": addMinutes(new Date(result.moment || ""), 15).toString(),
-    //         "ceremony-price-currency": result.kosten?.split(" ")[0] || "EUR",
-    //         "ceremony-price-amount": result.kosten?.split(" ")[1] || "-",
-    //       },
-    //     });
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
-  }, [ambtenaar, marriageOptions, productId, reservation, setMarriageOptions]);
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [ambtenaar, marriageOptions, productId, reservation, setMarriageOptions, persoonData]);
 
   useEffect(() => {
-    if (pageInitialized.current || !reservation) return;
+    if (pageInitialized.current || !reservation || !persoonData) return;
 
     if (!marriageOptions.id) {
       initializeMarriage();
       pageInitialized.current = true;
     }
-  }, [huwelijkId, initializeMarriage, marriageOptions, reservation, setMarriageOptions]);
+  }, [huwelijkId, initializeMarriage, marriageOptions, reservation, setMarriageOptions, persoonData]);
 
   useEffect(() => {
     if (formState.isDirty)
@@ -248,12 +258,27 @@ export default function MultistepForm1() {
   const onContactDetailsSubmit = (data: FormData) => {
     setLoading(true);
     if (huwelijkId) {
-      HuwelijkService.huwelijkPatchItem({
-        id: huwelijkId as string,
-        requestBody: {
-          partners: [
+      HuwelijkService.huwelijkGet(huwelijkId.toString()).then((response: any) => {
+        if (!reservation) return;
+
+        const partnerString = response.results.find(
+          (result: any) =>
+            result.eigenschap ===
+            "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3"
+        );
+
+        const partner = JSON.parse(partnerString.waarde);
+
+        // Partner
+        HuwelijkService.huwelijkPostEigenschap(
+          response.id ?? "",
+          "4dee2797-1faf-4dc0-95f8-ddc4956302f3",
+          JSON.stringify([
+            { partner },
             {
+              ...persoonData,
               requester: getBsnFromJWT(),
+
               contact: {
                 subjectIdentificatie: {
                   inpBsn: getBsnFromJWT(),
@@ -261,30 +286,65 @@ export default function MultistepForm1() {
                 ...mapToContactObject(data.email, data.phoneNumber),
               },
               results: getResultsChecklist(),
+              name: "",
             },
-          ],
-        },
-      }).then(() => {
-        push(`/persoonsgegevens/succes?huwelijkId=${huwelijkId}`);
-        setLoading(false);
+          ]) ?? ""
+        ).then(() => {
+          push(`/persoonsgegevens/succes?huwelijkId=${huwelijkId}`);
+          setLoading(false);
+        });
       });
     } else {
-      AssentService.assentPatchItem({
-        id: persoonData?.id as string,
-        requestBody: {
-          requester: getBsnFromJWT(),
-          contact: {
-            subjectIdentificatie: {
-              inpBsn: getBsnFromJWT(),
+      HuwelijkService.huwelijkGet(huwelijkIdCreate ?? " ").then((response: any) => {
+        if (!reservation) return;
+
+        const partnerString = response.results.find(
+          (result: any) =>
+            result.eigenschap ===
+            "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3"
+        );
+
+        const partner = JSON.parse(partnerString.waarde);
+
+        // Partner
+        HuwelijkService.huwelijkPostEigenschap(
+          response.id ?? "",
+          "4dee2797-1faf-4dc0-95f8-ddc4956302f3",
+          JSON.stringify({
+            ...partner,
+            requester: getBsnFromJWT(),
+
+            contact: {
+              subjectIdentificatie: {
+                inpBsn: getBsnFromJWT(),
+              },
+              ...mapToContactObject(data.email, data.phoneNumber),
             },
-            ...mapToContactObject(data.email, data.phoneNumber),
-          },
-          results: getResultsChecklist(),
-          name: "",
-        },
-      }).then(() => {
-        push("/voorgenomen-huwelijk/partner");
-        setLoading(false);
+            results: getResultsChecklist(),
+            name: "",
+          }) ?? ""
+        ).then(() => {
+          const newPartner: any = JSON.stringify({
+            ...partner,
+            requester: getBsnFromJWT(),
+
+            contact: {
+              subjectIdentificatie: {
+                inpBsn: getBsnFromJWT(),
+              },
+              ...mapToContactObject(data.email, data.phoneNumber),
+            },
+            results: getResultsChecklist(),
+            name: "",
+          });
+          setMarriageOptions({
+            ...marriageOptions,
+
+            partners: [newPartner],
+          });
+          push("/voorgenomen-huwelijk/partner");
+          setLoading(false);
+        });
       });
     }
   };

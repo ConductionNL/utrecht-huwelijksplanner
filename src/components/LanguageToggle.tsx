@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Fragment, HTMLAttributes, useId } from "react";
-import { ButtonGroup, Heading, LinkButton } from "./index";
+import { Fragment, HTMLAttributes, useContext, useId } from "react";
+import { Button, ButtonGroup, Heading, LinkButton } from "./index";
+import { MarriageOptionsContext } from "../context/MarriageOptionsContext";
 
 export type LanguageToggleProps = HTMLAttributes<HTMLElement>;
 
@@ -47,6 +48,7 @@ export const LanguageToggleButtons = ({ className, headingLevel }: LanguageToggl
   const router = useRouter();
   const { locales, pathname, query, asPath, locale: currentLocale } = router;
   const headingId = useId();
+  // const [marriageOptions, setMarriageOptions] = useContext(MarriageOptionsContext);
 
   const languages = [
     {
@@ -97,6 +99,17 @@ export const LanguageToggleButtons = ({ className, headingLevel }: LanguageToggl
             {textContent}
           </LinkButton>
         ))}
+        {/* DEV */}
+        {/* <Button
+          onClick={() =>
+            setMarriageOptions({
+              ...marriageOptions,
+              id: "",
+            })
+          }
+        >
+          Remove
+        </Button> */}
       </ButtonGroup>
     </section>
   );

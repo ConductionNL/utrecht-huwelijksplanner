@@ -201,7 +201,8 @@ const PlanningFormPage: NextPage = () => {
                   <Heading2>Meer informatie</Heading2>
                   <Paragraph>
                     <Link href="/" external>
-                      Trouwen of partnerschap registreren in Utrecht
+                      Trouwen of partnerschap registreren in{" "}
+                      {process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"}
                     </Link>
                   </Paragraph>
                 </Aside>
