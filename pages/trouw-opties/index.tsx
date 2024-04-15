@@ -58,9 +58,9 @@ export default function MultistepForm1() {
       <Document>
         <Surface>
           <Head>
-            <title>{`${t("common:step-n", { n: 1 })}: ${t("huwelijksplanner-step-1:title")} - ${t(
-              "common:website-name"
-            )}`}</title>
+            <title>{`${t("common:step-n", { n: 1 })}: ${t("huwelijksplanner-step-1:title")} - ${
+              process.env.NEXT_PUBLIC_ORGANISATION_NAME
+            }`}</title>
           </Head>
           <SkipLink href="#main">{t("common:skip-link-main")}</SkipLink>
           <Page>

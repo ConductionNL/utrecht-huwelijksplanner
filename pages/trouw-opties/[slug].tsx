@@ -114,9 +114,9 @@ const PlanningFormPage: NextPage = () => {
     <Surface>
       <Document>
         <Head>
-          <title>{`${t("common:step-n", { n: 2 })}: ${t("huwelijksplanner-step-2:title")} - ${t(
-            "common:website-name"
-          )}`}</title>
+          <title>{`${t("common:step-n", { n: 2 })}: ${t("huwelijksplanner-step-2:title")} - ${
+            process.env.NEXT_PUBLIC_ORGANISATION_NAME
+          }`}</title>
         </Head>
         <SkipLink href="#main">{t("common:skip-link-main")}</SkipLink>
         <Page>

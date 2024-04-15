@@ -38,16 +38,17 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 export default function MultistepForm1() {
   const { t } = useTranslation(["common", "huwelijksplanner-step-getuigen-success", "form"]);
   const [marriageOptions] = useContext(MarriageOptionsContext);
+  const partner = JSON.parse(marriageOptions.partners[0]?.toString());
   const { locale = "nl" } = useRouter();
-  const { voornaam } = marriageOptions.partners[0]?.contact;
+  const contact = partner?.naam;
 
   return (
     <Surface>
       <Document>
         <Head>
-          <title>{`${t("common:step-n", { n: 3 })}: ${t("huwelijksplanner-step-getuigen-success:title")} - ${t(
-            "common:website-name"
-          )}`}</title>
+          <title>{`${t("common:step-n", { n: 3 })}: ${t("huwelijksplanner-step-getuigen-success:title")} - ${
+            process.env.NEXT_PUBLIC_ORGANISATION_NAME
+          }`}</title>
         </Head>
         <SkipLink href="#main">{t("common:skip-link-main")}</SkipLink>
         <Page>
@@ -68,14 +69,15 @@ export default function MultistepForm1() {
               <section>
                 <Heading2>Gelukt!</Heading2>
                 <Paragraph>
-                  {voornaam ? <DataNoTranslate>{voornaam}</DataNoTranslate> : <>Je partner</>} heeft met DigID ingelogd.
-                  Nu kunnen jullie verder met het plannen van het huwelijk. Er volgen nog een paar stappen:
+                  {contact.voornamen ? <DataNoTranslate>{contact.voornamen}</DataNoTranslate> : <>Je partner</>} heeft
+                  met DigID ingelogd. Nu kunnen jullie verder met het plannen van het huwelijk. Er volgen nog een paar
+                  stappen:
                 </Paragraph>
                 <OrderedList>
                   <OrderedListItem>
                     De {process.env.NEXT_PUBLIC_ORGANISATION_NAME} checkt een aantal dingen, bijvoorbeeld of{" "}
-                    {voornaam ? <DataNoTranslate>{voornaam}</DataNoTranslate> : <>je partner</>} geen broer of zus van
-                    je is
+                    {contact.voornamen ? <DataNoTranslate>{contact.voornamen}</DataNoTranslate> : <>je partner</>} geen
+                    broer of zus van je is
                   </OrderedListItem>
                   <OrderedListItem>
                     Je kunt alvast extra’s aanschaffen om je huwelijk nog leuker te maken. Dat kan natuurlijk ook later.

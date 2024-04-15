@@ -33,7 +33,7 @@ export default function ApplicantEmail() {
     <Email>
       <Document>
         <Head>
-          <title>{`Melding Voorgenomen Huwelijk - ${t("common:website-name")}`}</title>
+          <title>{`Melding Voorgenomen Huwelijk - ${process.env.NEXT_PUBLIC_ORGANISATION_NAME}`}</title>
         </Head>
         <Page>
           <PageContent>
