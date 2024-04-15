@@ -22,6 +22,8 @@ import {
 import { PageFooterTemplate } from "../../src/components/huwelijksplanner/PageFooterTemplate";
 import { PageHeaderTemplate } from "../../src/components/huwelijksplanner/PageHeaderTemplate";
 import { exampleState } from "../../src/data/huwelijksplanner-state";
+import { useContext } from "react";
+import { MarriageOptionsContext } from "../../src/context/MarriageOptionsContext";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -31,6 +33,8 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 
 export default function MultistepForm1() {
   const { t } = useTranslation(["common", "huwelijksplanner-step-5", "form"]);
+  const [marriageOptions] = useContext(MarriageOptionsContext);
+
   const data = { ...exampleState };
   const { locale = "nl" } = useRouter();
 
@@ -38,7 +42,7 @@ export default function MultistepForm1() {
     <Surface>
       <Document>
         <Head>
-          <title>{`${t("huwelijksplanner-step-5:title")} - ${t("common:website-name")}`}</title>
+          <title>{`${t("huwelijksplanner-step-5:title")} - ${process.env.NEXT_PUBLIC_ORGANISATION_NAME}`}</title>
         </Head>
         <Page>
           <PageHeader>
@@ -54,7 +58,9 @@ export default function MultistepForm1() {
                   <Paragraph lead>{t("common:step-n-of-m", { n: 3, m: 5 })} — Meld je voorgenomen huwelijk</Paragraph>
                 </HeadingGroup>
                 {/*TODO: Banner / card */}
-                {data["reservation"] ? <ReservationCard reservation={data["reservation"]} locale={locale} /> : ""}
+                {marriageOptions.reservation && (
+                  <ReservationCard reservation={marriageOptions.reservation} locale={locale} />
+                )}{" "}
                 <section>
                   <Heading2>Gelukt</Heading2>
                   <Paragraph>De gemeente heeft de volgende punten gecontroleerd:</Paragraph>

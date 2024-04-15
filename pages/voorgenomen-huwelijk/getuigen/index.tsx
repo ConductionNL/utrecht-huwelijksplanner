@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useContext, useId, useState } from "react";
+import { useContext, useEffect, useId, useState } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import {
   Button,
@@ -51,6 +51,8 @@ type WitnessFormData = {
 export default function MultistepForm1() {
   const { t } = useTranslation(["common", "huwelijksplanner-step-getuigen", "form"]);
   const [marriageOptions] = useContext(MarriageOptionsContext);
+  console.log(marriageOptions);
+
   const { locale = "nl", push } = useRouter();
   const formMethods = useForm<WitnessFormData>();
   const [loading, setLoading] = useState(false);
@@ -73,6 +75,8 @@ export default function MultistepForm1() {
       return;
     }
 
+    console.log(marriageOptions.id);
+
     let hasError = false;
 
     formData.witnesses.forEach((witness, index) => {
@@ -88,16 +92,36 @@ export default function MultistepForm1() {
 
     if (hasError) return;
 
-    setLoading(true);
-    HuwelijkService.huwelijkPatchItem({
-      id: marriageOptions.id as string,
-      requestBody: {
-        getuigen: mapWitnesses(formData.witnesses),
-      },
-    }).then(() => {
-      push("/voorgenomen-huwelijk/getuigen/succes");
-      setLoading(false);
-    });
+    console.log(formData);
+
+    console.log(mapWitnesses(formData.witnesses));
+
+    console.log();
+
+    if (marriageOptions.id) {
+      HuwelijkService.huwelijkGet(marriageOptions.id.toString()).then((response: any) => {
+        // Getuigen
+        HuwelijkService.huwelijkPostEigenschap(
+          response.id ?? "",
+          "7e950e1d-04ab-482e-a066-299711d4b4ed",
+          JSON.stringify(mapWitnesses(formData.witnesses ?? [])) ?? ""
+        ).then(() => {
+          push("/voorgenomen-huwelijk/getuigen/succes");
+          setLoading(false);
+        });
+      });
+    }
+
+    // setLoading(true);
+    // HuwelijkService.huwelijkPatchItem({
+    //   id: marriageOptions.id as string,
+    //   requestBody: {
+    //     getuigen: mapWitnesses(formData.witnesses),
+    //   },
+    // }).then(() => {
+    //   push("/voorgenomen-huwelijk/getuigen/succes");
+    //   setLoading(false);
+    // });
   };
 
   const formHeaderId = useId();
@@ -106,9 +130,9 @@ export default function MultistepForm1() {
     <Surface>
       <Document>
         <Head>
-          <title>{`${t("common:step-n", { n: 3 })}: ${t("huwelijksplanner-step-getuigen:title")} - ${t(
-            "common:website-name"
-          )}`}</title>
+          <title>{`${t("common:step-n", { n: 3 })}: ${t("huwelijksplanner-step-getuigen:title")} - ${
+            process.env.NEXT_PUBLIC_ORGANISATION_NAME
+          }`}</title>
         </Head>
         <SkipLink href="#main">{t("common:skip-link-main")}</SkipLink>
         <Page>
@@ -143,7 +167,7 @@ export default function MultistepForm1() {
                     <WitnessFieldset index={4} />
                     <ButtonGroup>
                       <Button
-                        disabled={loading || !hasWitnesses}
+                        // disabled={loading || !hasWitnesses}
                         appearance="primary-action-button"
                         type="submit"
                         value={"invite"}

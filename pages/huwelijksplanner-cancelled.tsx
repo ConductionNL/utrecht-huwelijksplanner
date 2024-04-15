@@ -62,7 +62,7 @@ export default function MultistepForm1() {
     <Surface>
       <Document>
         <Head>
-          <title>{`${t("huwelijksplanner-cancelled:title")} - ${t("common:website-name")}`}</title>
+          <title>{`${t("huwelijksplanner-cancelled:title")} - ${process.env.NEXT_PUBLIC_ORGANISATION_NAME}`}</title>
         </Head>
         <Page>
           <PageHeader>

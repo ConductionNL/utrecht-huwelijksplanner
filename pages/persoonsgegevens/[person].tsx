@@ -99,6 +99,16 @@ export default function MultistepForm1() {
   };
 
   useEffect(() => {
+    // console.log(loadingType)
+    // console.log(loadingCeremonie)
+    // console.log(loadingMoment)
+    // console.log(loadingAmbtenaar)
+    // console.log(loadingLocatie)
+    // console.log(loadingKosten)
+    // console.log(loadingPartner)
+    // console.log(!huwelijkId)
+    // console.log(loading)
+
     if (
       loadingType === true &&
       loadingCeremonie === true &&
@@ -357,9 +367,9 @@ export default function MultistepForm1() {
     <Surface>
       <Document>
         <Head>
-          <title>{`${t("common:step-n", { n: 3 })}: ${t("huwelijksplanner-step-4:title")} - ${t(
-            "common:website-name"
-          )}`}</title>
+          <title>{`${t("common:step-n", { n: 3 })}: ${t("huwelijksplanner-step-4:title")} - ${
+            process.env.NEXT_PUBLIC_ORGANISATION_NAME
+          }`}</title>
         </Head>
         <SkipLink href="#main">{t("common:skip-link-main")}</SkipLink>
         <Page>
