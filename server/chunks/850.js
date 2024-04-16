@@ -390,7 +390,7 @@ var ApiError = __webpack_require__(8885);
 var CancelablePromise = __webpack_require__(5202);
 ;// CONCATENATED MODULE: ./src/generated/core/OpenAPI.ts
 /* istanbul ignore file */ /* tslint:disable */ const OpenAPI_OpenAPI = {
-    BASE: "https://api.leiden-hp.commonground.nu/api" ?? 0,
+    BASE: "https://api.huwelijksplanner.online/api" ?? 0,
     VERSION: "1.0",
     WITH_CREDENTIALS: false,
     CREDENTIALS: "include",
@@ -988,7 +988,7 @@ class AvailabilitycheckService {
      */ static availabilitycheckGetCollection({ resourcesCould , interval , stop , start , id  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
-            url: "/hp/calendar/availabilitycheck",
+            url: "/api/hp/calendar/availabilitycheck",
             query: {
                 "resources_could[]": resourcesCould,
                 "interval": interval,
@@ -2509,6 +2509,43 @@ class HuwelijkService {
     }
     /**
      * Huwelijk
+     * @returns Huwelijk
+     * @throws ApiError
+     */ static huwelijkCreate({ requestBody  }) {
+        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+            method: "POST",
+            url: "/api/zrc/v1/zaken",
+            body: requestBody,
+            mediaType: "application/json"
+        });
+    }
+    /**
+     * Huwelijk
+     * @returns Huwelijk
+     * @throws ApiError
+     */ static huwelijkGet({ id  }) {
+        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+            method: "GET",
+            url: "/api/zrc/v1/zaakeigenschappen?zaak=https://api.huwelijksplanner.online/api/zrc/v1/zaken/{id}",
+            path: {
+                "id": id
+            }
+        });
+    }
+    /**
+     * Huwelijk
+     * @returns Huwelijk
+     * @throws ApiError
+     */ static huwelijkPostEigenschap({ requestBody  }) {
+        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+            method: "POST",
+            url: "/api/zrc/v1/zaakeigenschappen",
+            body: requestBody,
+            mediaType: "application/json"
+        });
+    }
+    /**
+     * Huwelijk
      * @returns any OK
      * @throws ApiError
      */ static huwelijkGetCollection({ id , status , moment , order , kosten , melding , partners , getuigen , type , ceremonie , locatie , ambtenaar , producten , checklist , instemmingGemeente , assents , zaak  }) {
@@ -2749,7 +2786,7 @@ class IngeschrevenpersoonService {
      */ static ingeschrevenpersoonGetItem({ id  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
-            url: "/brp/ingeschrevenpersonen/{id}",
+            url: "/api/brp/ingeschrevenpersonen/{id}",
             path: {
                 "id": id
             }
@@ -2762,7 +2799,7 @@ class IngeschrevenpersoonService {
      */ static ingeschrevenpersoonPutItem({ id , requestBody  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PUT",
-            url: "/brp/ingeschrevenpersonen/{id}",
+            url: "/api/brp/ingeschrevenpersonen/{id}",
             path: {
                 "id": id
             },
@@ -2777,7 +2814,7 @@ class IngeschrevenpersoonService {
      */ static ingeschrevenpersoonPatchItem({ id , requestBody  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PATCH",
-            url: "/brp/ingeschrevenpersonen/{id}",
+            url: "/api/brp/ingeschrevenpersonen/{id}",
             path: {
                 "id": id
             },
@@ -2792,7 +2829,7 @@ class IngeschrevenpersoonService {
      */ static ingeschrevenpersoonDeleteItem({ id  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "DELETE",
-            url: "/brp/ingeschrevenpersonen/{id}",
+            url: "/api/brp/ingeschrevenpersonen/{id}",
             path: {
                 "id": id
             }
@@ -2805,7 +2842,7 @@ class IngeschrevenpersoonService {
      */ static ingeschrevenpersoonGetCollection({ partners , ouders , kinderen , verblijfstitel , gezagsverhouding , verblijfplaats , overlijden , opschortingBijhouding , geboorte , nationaliteiten , inOnderzoek , naam , kiesrecht , datumEersteInschrijvingGba , reisdocumentnummers , leeftijd , geslachtsaanduiding , geheimhoudingPersoonsgegevens , aNummer , burgerservicenummer , id  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
-            url: "/brp/ingeschrevenpersonen",
+            url: "/api/brp/ingeschrevenpersonen",
             query: {
                 "partners": partners,
                 "ouders": ouders,
@@ -2838,7 +2875,7 @@ class IngeschrevenpersoonService {
      */ static ingeschrevenpersoonPostItem({ requestBody  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "POST",
-            url: "/brp/ingeschrevenpersonen",
+            url: "/api/brp/ingeschrevenpersonen",
             body: requestBody,
             mediaType: "application/json"
         });
@@ -4416,7 +4453,7 @@ class SdgproductService {
      */ static sdgproductGetItem({ id  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
-            url: "/hp/producten/{id}",
+            url: "/api/hp/producten/{id}",
             path: {
                 "id": id
             }
@@ -4429,7 +4466,7 @@ class SdgproductService {
      */ static sdgproductPutItem({ id , requestBody  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PUT",
-            url: "/hp/producten/{id}",
+            url: "/api/hp/producten/{id}",
             path: {
                 "id": id
             },
@@ -4444,7 +4481,7 @@ class SdgproductService {
      */ static sdgproductPatchItem({ id , requestBody  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PATCH",
-            url: "/hp/producten/{id}",
+            url: "/api/hp/producten/{id}",
             path: {
                 "id": id
             },
@@ -4459,7 +4496,7 @@ class SdgproductService {
      */ static sdgproductDeleteItem({ id  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "DELETE",
-            url: "/hp/producten/{id}",
+            url: "/api/hp/producten/{id}",
             path: {
                 "id": id
             }
@@ -4472,7 +4509,7 @@ class SdgproductService {
      */ static sdgproductGetCollection({ id , url , uuid , upnLabel , upnUri , versie , publicatieDatum , productAanwezigheid , productValtOnder , catalogus , locaties , doelgroep , verantwoordelijkeOrganisatie , bevoegdeOrganisatie , vertalingen , gerelateerdeProducten  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
-            url: "/hp/producten",
+            url: "/api/hp/producten",
             query: {
                 "id": id,
                 "url": url,
@@ -4500,7 +4537,7 @@ class SdgproductService {
      */ static sdgproductPostItem({ requestBody  }) {
         return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
             method: "POST",
-            url: "/hp/producten",
+            url: "/api/hp/producten",
             body: requestBody,
             mediaType: "application/json"
         });

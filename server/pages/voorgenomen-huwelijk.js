@@ -80,7 +80,7 @@ function MultistepForm1() {
                     children: /*#__PURE__*/ jsx_runtime.jsx("title", {
                         children: `${t("common:step-n", {
                             n: 3
-                        })}: ${t("huwelijksplanner-step-3:eenvoudig-trouwen")} - ${t("common:website-name")}`
+                        })}: ${t("huwelijksplanner-step-3:eenvoudig-trouwen")} - ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ jsx_runtime.jsx(components.SkipLink, {

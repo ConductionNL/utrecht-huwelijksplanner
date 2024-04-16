@@ -56,11 +56,9 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 /* harmony import */ var _src_components_huwelijksplanner_PageFooterTemplate__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(6198);
 /* harmony import */ var _src_components_huwelijksplanner_PageHeaderTemplate__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(5428);
 /* harmony import */ var _src_context_MarriageOptionsContext__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(2670);
-/* harmony import */ var _src_generated__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(8690);
-/* harmony import */ var _src_hooks_useSdgProductGetCollection__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(8567);
+/* harmony import */ var _src_hooks_useSdgProductGetCollection__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(8567);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([react_hook_form__WEBPACK_IMPORTED_MODULE_8__, react_loading_skeleton__WEBPACK_IMPORTED_MODULE_9__]);
 ([react_hook_form__WEBPACK_IMPORTED_MODULE_8__, react_loading_skeleton__WEBPACK_IMPORTED_MODULE_9__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
-
 
 
 
@@ -93,43 +91,57 @@ function MultistepForm1() {
     ]);
     const [marriageOptions, setMarriageOptions] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useContext)(_src_context_MarriageOptionsContext__WEBPACK_IMPORTED_MODULE_13__/* .MarriageOptionsContext */ .K);
     const { locale ="nl" , push  } = (0,next_router__WEBPACK_IMPORTED_MODULE_4__.useRouter)();
-    const [certificate, productLoading] = (0,_src_hooks_useSdgProductGetCollection__WEBPACK_IMPORTED_MODULE_15__/* .useSdgProductGetCollection */ .B)("trouwboekje");
+    const [certificate, productLoading] = (0,_src_hooks_useSdgProductGetCollection__WEBPACK_IMPORTED_MODULE_14__/* .useSdgProductGetCollection */ .B)("trouwboekje");
     const { register , handleSubmit  } = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_8__.useForm)();
     const reservation = marriageOptions.reservation;
     const [saving, setSaving] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(false);
     const certificateRadioName = "marriage-certificate-kind";
     const noCertificateId = (0,react__WEBPACK_IMPORTED_MODULE_7__.useId)();
+    const getCosts = (id)=>{
+        switch(id){
+            case "998206bc-d530-4291-89eb-02ebe21a7289":
+                return parseFloat(marriageOptions.reservation?.["ceremony-price-amount"] ?? "0") + 32.5;
+            case "22f40941-72ff-4825-87f4-1a67d6daf7f2":
+                return parseFloat(marriageOptions.reservation?.["ceremony-price-amount"] ?? "0") + 32.5;
+            case "c8c733e1-13c8-4d96-a388-de30d787f15b":
+                return parseFloat(marriageOptions.reservation?.["ceremony-price-amount"] ?? "0") + 30;
+            default:
+                return parseFloat(marriageOptions.reservation?.["ceremony-price-amount"] ?? "0") + 0;
+        }
+    };
     const onMarriageCertificateKindSubmit = (formData)=>{
         if (formData["marriage-certificate-kind"] === "none") {
             push("/voorgenomen-huwelijk/checken");
             return;
         }
+        const test = getCosts(formData).toString();
         if (!reservation) return;
         setSaving(true);
-        _src_generated__WEBPACK_IMPORTED_MODULE_14__/* .HuwelijkService.huwelijkPatchItem */ ._H.huwelijkPatchItem({
-            id: marriageOptions.id,
-            requestBody: {
-                producten: [
-                    formData["marriage-certificate-kind"]
-                ]
+        setMarriageOptions({
+            ...marriageOptions,
+            reservation: {
+                ...reservation,
+                "ceremony-price-amount": test
             }
-        }).then(({ kosten  })=>{
-            setMarriageOptions({
-                ...marriageOptions,
-                reservation: {
-                    ...reservation,
-                    "ceremony-price-amount": kosten ? kosten.replace("EUR ", "") : "-"
-                }
-            });
-            push("/voorgenomen-huwelijk/checken");
-        }).finally(()=>setSaving(false));
+        });
+        setSaving(false);
+        push("/voorgenomen-huwelijk/checken");
+    // HuwelijkService.huwelijkPatchItem({
+    //   id: marriageOptions.id as string,
+    //   requestBody: {
+    //     producten: [formData["marriage-certificate-kind"]],
+    //   },
+    // })
+    //   .then(({ kosten }) => {
+    //   })
+    //   .finally(() => setSaving(false));
     };
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_src_components__WEBPACK_IMPORTED_MODULE_10__.Surface, {
         children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_src_components__WEBPACK_IMPORTED_MODULE_10__.Document, {
             children: [
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((next_head__WEBPACK_IMPORTED_MODULE_2___default()), {
                     children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("title", {
-                        children: `${t("huwelijksplanner-step-5:title")} - ${t("common:website-name")}`
+                        children: `${t("huwelijksplanner-step-5:title")} -  ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_src_components__WEBPACK_IMPORTED_MODULE_10__.Page, {
@@ -231,7 +243,6 @@ function MultistepForm1() {
                                         }),
                                         /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.ButtonGroup, {
                                             children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_src_components__WEBPACK_IMPORTED_MODULE_10__.Button, {
-                                                disabled: saving || productLoading,
                                                 type: "submit",
                                                 name: "type",
                                                 appearance: "primary-action-button",

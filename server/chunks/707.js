@@ -14,6 +14,8 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: ./node_modules/react/jsx-runtime.js
 var jsx_runtime = __webpack_require__(5893);
+// EXTERNAL MODULE: external "react"
+var external_react_ = __webpack_require__(6689);
 ;// CONCATENATED MODULE: ./src/data/footer-data.ts
 const footerData = [
     {
@@ -60,8 +62,12 @@ const footerData = [
  * Copyright (c) 2021 Robbert Broersma
  */ 
 
+
 const PageFooterTemplate = ()=>{
-    const data =  false && 0;
+    const [data, setData] = external_react_.useState(footerData.find((data)=>data.theme === "utrecht-theme"));
+    external_react_.useEffect(()=>{
+        if (false) {}
+    }, []);
     return /*#__PURE__*/ (0,jsx_runtime.jsxs)(jsx_runtime.Fragment, {
         children: [
             /*#__PURE__*/ (0,jsx_runtime.jsxs)("address", {
@@ -88,7 +94,7 @@ const PageFooterTemplate = ()=>{
                                         item.title !== "Telefoon" && !item.subItems && /*#__PURE__*/ jsx_runtime.jsx("span", {
                                             children: item.value
                                         }),
-                                        item.title !== "Telefoon" && item.subItems && item.subItems.map((subItem, idx)=>/*#__PURE__*/ (0,jsx_runtime.jsxs)(jsx_runtime.Fragment, {
+                                        item.title !== "Telefoon" && item.subItems && item.subItems.map((subItem, idx)=>/*#__PURE__*/ (0,jsx_runtime.jsxs)(external_react_.Fragment, {
                                                 children: [
                                                     /*#__PURE__*/ jsx_runtime.jsx("strong", {
                                                         children: subItem.title
@@ -96,7 +102,7 @@ const PageFooterTemplate = ()=>{
                                                     /*#__PURE__*/ jsx_runtime.jsx("br", {}),
                                                     subItem.value
                                                 ]
-                                            }))
+                                            }, idx))
                                     ]
                                 })
                             ]

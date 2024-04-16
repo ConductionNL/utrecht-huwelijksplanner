@@ -93,8 +93,7 @@ const mapToCeremonyData = (products)=>{
     return products.gerelateerdeProducten.map((ceremony)=>({
             id: ceremony.id,
             type: ceremony.upnLabel,
-            locationId: ceremony.gerelateerdeProducten[0].id,
-            ambtenaarId: ceremony.gerelateerdeProducten[0].gerelateerdeProducten[0].id
+            locationId: ceremony.gerelateerdeProducten[0].id
         }));
 };
 const useSdgProductGetItem = (id)=>{
@@ -213,7 +212,7 @@ const PlanningFormPage = ()=>{
                     children: /*#__PURE__*/ jsx_runtime.jsx("title", {
                         children: `${t("common:step-n", {
                             n: 2
-                        })}: ${t("huwelijksplanner-step-2:title")} - ${t("common:website-name")}`
+                        })}: ${t("huwelijksplanner-step-2:title")} - ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ jsx_runtime.jsx(components.SkipLink, {
@@ -342,10 +341,14 @@ const PlanningFormPage = ()=>{
                                                         children: "Meer informatie"
                                                     }),
                                                     /*#__PURE__*/ jsx_runtime.jsx(components.Paragraph, {
-                                                        children: /*#__PURE__*/ jsx_runtime.jsx(components.Link, {
+                                                        children: /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Link, {
                                                             href: "/",
                                                             external: true,
-                                                            children: "Trouwen of partnerschap registreren in Utrecht"
+                                                            children: [
+                                                                "Trouwen of partnerschap registreren in",
+                                                                " ",
+                                                                process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"
+                                                            ]
                                                         })
                                                     })
                                                 ]

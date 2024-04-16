@@ -107,7 +107,7 @@ function MultistepForm1() {
             children: [
                 /*#__PURE__*/ jsx_runtime.jsx((head_default()), {
                     children: /*#__PURE__*/ jsx_runtime.jsx("title", {
-                        children: `${t("huwelijksplanner-cancelled:title")} - ${t("common:website-name")}`
+                        children: `${t("huwelijksplanner-cancelled:title")} - ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Page, {

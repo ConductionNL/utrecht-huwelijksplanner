@@ -66,7 +66,8 @@ function MultistepForm1() {
     ]);
     const [marriageOptions] = (0,external_react_.useContext)(MarriageOptionsContext/* MarriageOptionsContext */.K);
     const { locale ="nl"  } = (0,router_.useRouter)();
-    const contact = marriageOptions.partners[0]?.contact;
+    const partner = JSON.parse(marriageOptions.partners[0]?.toString());
+    const contact = partner?.naam;
     return /*#__PURE__*/ jsx_runtime.jsx(components.Surface, {
         children: /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Document, {
             children: [
@@ -74,7 +75,7 @@ function MultistepForm1() {
                     children: /*#__PURE__*/ jsx_runtime.jsx("title", {
                         children: `${t("common:step-n", {
                             n: 3
-                        })}: ${t("huwelijksplanner-step-5:title")} - ${t("common:website-name")}`
+                        })}: ${t("huwelijksplanner-step-5:title")} - ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ jsx_runtime.jsx(components.SkipLink, {
@@ -123,7 +124,7 @@ function MultistepForm1() {
                                                         "We hebben jouw gegevens gekoppeld aan die van",
                                                         " ",
                                                         /*#__PURE__*/ jsx_runtime.jsx(components.DataNoTranslate, {
-                                                            children: `${contact.voornaam} ${contact.achternaam}`
+                                                            children: `${contact.voornamen} ${contact.geslachtsnaam}`
                                                         }),
                                                         ". Jullie kunnen nu verder gaan met het plannen van jullie huwelijk."
                                                     ]

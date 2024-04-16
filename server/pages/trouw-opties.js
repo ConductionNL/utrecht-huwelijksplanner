@@ -88,7 +88,7 @@ function MultistepForm1() {
                         children: /*#__PURE__*/ jsx_runtime.jsx("title", {
                             children: `${t("common:step-n", {
                                 n: 1
-                            })}: ${t("huwelijksplanner-step-1:title")} - ${t("common:website-name")}`
+                            })}: ${t("huwelijksplanner-step-1:title")} - ${"Gemeente Leiden"}`
                         })
                     }),
                     /*#__PURE__*/ jsx_runtime.jsx(components.SkipLink, {
@@ -171,10 +171,14 @@ function MultistepForm1() {
                                                         })
                                                     }),
                                                     /*#__PURE__*/ jsx_runtime.jsx(components.Paragraph, {
-                                                        children: /*#__PURE__*/ jsx_runtime.jsx(components.Link, {
+                                                        children: /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Link, {
                                                             href: "/",
                                                             external: true,
-                                                            children: "Trouwen of partnerschap registreren in Utrecht"
+                                                            children: [
+                                                                "Trouwen of partnerschap registreren in",
+                                                                " ",
+                                                                process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"
+                                                            ]
                                                         })
                                                     })
                                                 ]

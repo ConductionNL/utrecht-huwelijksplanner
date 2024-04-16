@@ -65,8 +65,9 @@ function MultistepForm1() {
         "form"
     ]);
     const [marriageOptions] = (0,external_react_.useContext)(MarriageOptionsContext/* MarriageOptionsContext */.K);
+    const partner = JSON.parse(marriageOptions.partners[0]?.toString());
     const { locale ="nl"  } = (0,router_.useRouter)();
-    const { voornaam  } = marriageOptions.partners[0]?.contact;
+    const contact = partner?.naam;
     return /*#__PURE__*/ jsx_runtime.jsx(components.Surface, {
         children: /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Document, {
             children: [
@@ -74,7 +75,7 @@ function MultistepForm1() {
                     children: /*#__PURE__*/ jsx_runtime.jsx("title", {
                         children: `${t("common:step-n", {
                             n: 3
-                        })}: ${t("huwelijksplanner-step-getuigen-success:title")} - ${t("common:website-name")}`
+                        })}: ${t("huwelijksplanner-step-getuigen-success:title")} - ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ jsx_runtime.jsx(components.SkipLink, {
@@ -118,8 +119,8 @@ function MultistepForm1() {
                                             }),
                                             /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Paragraph, {
                                                 children: [
-                                                    voornaam ? /*#__PURE__*/ jsx_runtime.jsx(components.DataNoTranslate, {
-                                                        children: voornaam
+                                                    contact.voornamen ? /*#__PURE__*/ jsx_runtime.jsx(components.DataNoTranslate, {
+                                                        children: contact.voornamen
                                                     }) : /*#__PURE__*/ jsx_runtime.jsx(jsx_runtime.Fragment, {
                                                         children: "Je partner"
                                                     }),
@@ -134,8 +135,8 @@ function MultistepForm1() {
                                                             "Gemeente Leiden",
                                                             " checkt een aantal dingen, bijvoorbeeld of",
                                                             " ",
-                                                            voornaam ? /*#__PURE__*/ jsx_runtime.jsx(components.DataNoTranslate, {
-                                                                children: voornaam
+                                                            contact.voornamen ? /*#__PURE__*/ jsx_runtime.jsx(components.DataNoTranslate, {
+                                                                children: contact.voornamen
                                                             }) : /*#__PURE__*/ jsx_runtime.jsx(jsx_runtime.Fragment, {
                                                                 children: "je partner"
                                                             }),

@@ -116,16 +116,33 @@ function MultistepForm1() {
             }
         });
         if (hasError) return;
-        setLoading(true);
-        _src_generated__WEBPACK_IMPORTED_MODULE_12__/* .HuwelijkService.huwelijkPatchItem */ ._H.huwelijkPatchItem({
-            id: marriageOptions.id,
-            requestBody: {
-                getuigen: mapWitnesses(formData.witnesses)
-            }
-        }).then(()=>{
-            push("/voorgenomen-huwelijk/getuigen/succes");
-            setLoading(false);
-        });
+        if (marriageOptions.id) {
+            _src_generated__WEBPACK_IMPORTED_MODULE_12__/* .HuwelijkService.huwelijkGet */ ._H.huwelijkGet({
+                id: marriageOptions.id.toString()
+            }).then((response)=>{
+                // Getuigen
+                _src_generated__WEBPACK_IMPORTED_MODULE_12__/* .HuwelijkService.huwelijkPostEigenschap */ ._H.huwelijkPostEigenschap({
+                    requestBody: {
+                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+                        eigenschap: "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/7e950e1d-04ab-482e-a066-299711d4b4ed",
+                        waarde: JSON.stringify(mapWitnesses(formData.witnesses ?? [])) ?? ""
+                    }
+                }).then(()=>{
+                    push("/voorgenomen-huwelijk/getuigen/succes");
+                    setLoading(false);
+                });
+            });
+        }
+    // setLoading(true);
+    // HuwelijkService.huwelijkPatchItem({
+    //   id: marriageOptions.id as string,
+    //   requestBody: {
+    //     getuigen: mapWitnesses(formData.witnesses),
+    //   },
+    // }).then(() => {
+    //   push("/voorgenomen-huwelijk/getuigen/succes");
+    //   setLoading(false);
+    // });
     };
     const formHeaderId = (0,react__WEBPACK_IMPORTED_MODULE_6__.useId)();
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_src_components__WEBPACK_IMPORTED_MODULE_8__.Surface, {
@@ -135,7 +152,7 @@ function MultistepForm1() {
                     children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("title", {
                         children: `${t("common:step-n", {
                             n: 3
-                        })}: ${t("huwelijksplanner-step-getuigen:title")} - ${t("common:website-name")}`
+                        })}: ${t("huwelijksplanner-step-getuigen:title")} - ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_src_components__WEBPACK_IMPORTED_MODULE_8__.SkipLink, {
@@ -203,7 +220,7 @@ function MultistepForm1() {
                                                     /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_src_components__WEBPACK_IMPORTED_MODULE_8__.ButtonGroup, {
                                                         children: [
                                                             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_src_components__WEBPACK_IMPORTED_MODULE_8__.Button, {
-                                                                disabled: loading || !hasWitnesses,
+                                                                // disabled={loading || !hasWitnesses}
                                                                 appearance: "primary-action-button",
                                                                 type: "submit",
                                                                 value: "invite",

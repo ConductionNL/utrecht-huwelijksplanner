@@ -291,7 +291,7 @@ function HuwelijksplannerStep0() {
             children: [
                 /*#__PURE__*/ jsx_runtime.jsx((head_default()), {
                     children: /*#__PURE__*/ jsx_runtime.jsx("title", {
-                        children: `Melding Voorgenomen Huwelijk - ${t("common:website-name")}`
+                        children: `Melding Voorgenomen Huwelijk - ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ jsx_runtime.jsx(components.Page, {

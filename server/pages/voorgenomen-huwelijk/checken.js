@@ -30,15 +30,21 @@ var router_ = __webpack_require__(1853);
 var external_next_i18next_ = __webpack_require__(1377);
 // EXTERNAL MODULE: external "next-i18next/serverSideTranslations"
 var serverSideTranslations_ = __webpack_require__(5460);
+// EXTERNAL MODULE: external "react"
+var external_react_ = __webpack_require__(6689);
 // EXTERNAL MODULE: ./src/components/index.ts
 var components = __webpack_require__(4277);
 // EXTERNAL MODULE: ./src/components/huwelijksplanner/PageFooterTemplate.tsx + 1 modules
 var PageFooterTemplate = __webpack_require__(6198);
 // EXTERNAL MODULE: ./src/components/huwelijksplanner/PageHeaderTemplate.tsx
 var PageHeaderTemplate = __webpack_require__(5428);
+// EXTERNAL MODULE: ./src/context/MarriageOptionsContext.tsx
+var MarriageOptionsContext = __webpack_require__(2670);
 // EXTERNAL MODULE: ./src/data/huwelijksplanner-state.ts
 var huwelijksplanner_state = __webpack_require__(8525);
 ;// CONCATENATED MODULE: ./pages/voorgenomen-huwelijk/checken.tsx
+
+
 
 
 
@@ -64,6 +70,7 @@ function MultistepForm1() {
         "huwelijksplanner-step-5",
         "form"
     ]);
+    const [marriageOptions] = (0,external_react_.useContext)(MarriageOptionsContext/* MarriageOptionsContext */.K);
     const data = {
         ...huwelijksplanner_state/* exampleState */.A
     };
@@ -73,7 +80,7 @@ function MultistepForm1() {
             children: [
                 /*#__PURE__*/ jsx_runtime.jsx((head_default()), {
                     children: /*#__PURE__*/ jsx_runtime.jsx("title", {
-                        children: `${t("huwelijksplanner-step-5:title")} - ${t("common:website-name")}`
+                        children: `${t("huwelijksplanner-step-5:title")} - ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Page, {
@@ -104,10 +111,11 @@ function MultistepForm1() {
                                                 })
                                             ]
                                         }),
-                                        data["reservation"] ? /*#__PURE__*/ jsx_runtime.jsx(components.ReservationCard, {
-                                            reservation: data["reservation"],
+                                        marriageOptions.reservation && /*#__PURE__*/ jsx_runtime.jsx(components.ReservationCard, {
+                                            reservation: marriageOptions.reservation,
                                             locale: locale
-                                        }) : "",
+                                        }),
+                                        " ",
                                         /*#__PURE__*/ (0,jsx_runtime.jsxs)("section", {
                                             children: [
                                                 /*#__PURE__*/ jsx_runtime.jsx(components.Heading2, {
@@ -341,7 +349,7 @@ module.exports = require("react-dom");
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,277,525,707], () => (__webpack_exec__(1753)));
+var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,277,525,707,670], () => (__webpack_exec__(1753)));
 module.exports = __webpack_exports__;
 
 })();
