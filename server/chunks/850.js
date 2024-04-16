@@ -390,7 +390,7 @@ var ApiError = __webpack_require__(8885);
 var CancelablePromise = __webpack_require__(5202);
 ;// CONCATENATED MODULE: ./src/generated/core/OpenAPI.ts
 /* istanbul ignore file */ /* tslint:disable */ const OpenAPI_OpenAPI = {
-    BASE: "https://api.huwelijksplanner.online/api" ?? 0,
+    BASE: "https://api.huwelijksplanner.online/" ?? 0,
     VERSION: "1.0",
     WITH_CREDENTIALS: false,
     CREDENTIALS: "include",

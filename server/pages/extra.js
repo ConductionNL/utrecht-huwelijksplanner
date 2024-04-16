@@ -56,9 +56,11 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 /* harmony import */ var _src_components_huwelijksplanner_PageFooterTemplate__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(6198);
 /* harmony import */ var _src_components_huwelijksplanner_PageHeaderTemplate__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(5428);
 /* harmony import */ var _src_context_MarriageOptionsContext__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(2670);
-/* harmony import */ var _src_hooks_useSdgProductGetCollection__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(8567);
+/* harmony import */ var _src_generated__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(8690);
+/* harmony import */ var _src_hooks_useSdgProductGetCollection__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(8567);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([react_hook_form__WEBPACK_IMPORTED_MODULE_8__, react_loading_skeleton__WEBPACK_IMPORTED_MODULE_9__]);
 ([react_hook_form__WEBPACK_IMPORTED_MODULE_8__, react_loading_skeleton__WEBPACK_IMPORTED_MODULE_9__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
+
 
 
 
@@ -91,7 +93,7 @@ function MultistepForm1() {
     ]);
     const [marriageOptions, setMarriageOptions] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useContext)(_src_context_MarriageOptionsContext__WEBPACK_IMPORTED_MODULE_13__/* .MarriageOptionsContext */ .K);
     const { locale ="nl" , push  } = (0,next_router__WEBPACK_IMPORTED_MODULE_4__.useRouter)();
-    const [certificate, productLoading] = (0,_src_hooks_useSdgProductGetCollection__WEBPACK_IMPORTED_MODULE_14__/* .useSdgProductGetCollection */ .B)("trouwboekje");
+    const [certificate, productLoading] = (0,_src_hooks_useSdgProductGetCollection__WEBPACK_IMPORTED_MODULE_15__/* .useSdgProductGetCollection */ .B)("trouwboekje");
     const { register , handleSubmit  } = (0,react_hook_form__WEBPACK_IMPORTED_MODULE_8__.useForm)();
     const reservation = marriageOptions.reservation;
     const [saving, setSaving] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(false);
@@ -114,27 +116,32 @@ function MultistepForm1() {
             push("/voorgenomen-huwelijk/checken");
             return;
         }
-        const test = getCosts(formData).toString();
         if (!reservation) return;
         setSaving(true);
-        setMarriageOptions({
-            ...marriageOptions,
-            reservation: {
-                ...reservation,
-                "ceremony-price-amount": test
-            }
-        });
-        setSaving(false);
-        push("/voorgenomen-huwelijk/checken");
-    // HuwelijkService.huwelijkPatchItem({
-    //   id: marriageOptions.id as string,
-    //   requestBody: {
-    //     producten: [formData["marriage-certificate-kind"]],
-    //   },
-    // })
-    //   .then(({ kosten }) => {
-    //   })
-    //   .finally(() => setSaving(false));
+        if (marriageOptions.id) {
+            _src_generated__WEBPACK_IMPORTED_MODULE_14__/* .HuwelijkService.huwelijkGet */ ._H.huwelijkGet({
+                id: marriageOptions.id.toString()
+            }).then((response)=>{
+                // Kosten
+                _src_generated__WEBPACK_IMPORTED_MODULE_14__/* .HuwelijkService.huwelijkPostEigenschap */ ._H.huwelijkPostEigenschap({
+                    requestBody: {
+                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+                        eigenschap: "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/416de8b8-d5d1-4f44-9a1e-1846d552292c",
+                        waarde: getCosts(formData["marriage-certificate-kind"]).toString() ?? ""
+                    }
+                }).finally(()=>{
+                    setMarriageOptions({
+                        ...marriageOptions,
+                        reservation: {
+                            ...reservation,
+                            "ceremony-price-amount": getCosts(formData["marriage-certificate-kind"]).toString()
+                        }
+                    });
+                    setSaving(false);
+                    push("/voorgenomen-huwelijk/checken");
+                });
+            });
+        }
     };
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_src_components__WEBPACK_IMPORTED_MODULE_10__.Surface, {
         children: /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_src_components__WEBPACK_IMPORTED_MODULE_10__.Document, {
@@ -243,6 +250,7 @@ function MultistepForm1() {
                                         }),
                                         /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.ButtonGroup, {
                                             children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_src_components__WEBPACK_IMPORTED_MODULE_10__.Button, {
+                                                disabled: saving || productLoading,
                                                 type: "submit",
                                                 name: "type",
                                                 appearance: "primary-action-button",
