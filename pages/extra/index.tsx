@@ -53,33 +53,52 @@ export default function MultistepForm1() {
   const certificateRadioName = "marriage-certificate-kind";
   const noCertificateId = useId();
 
+  const getCosts = (id: any) => {
+    switch (id) {
+      case "998206bc-d530-4291-89eb-02ebe21a7289":
+        return parseFloat(marriageOptions.reservation?.["ceremony-price-amount"] ?? "0") + 32.5;
+      case "22f40941-72ff-4825-87f4-1a67d6daf7f2":
+        return parseFloat(marriageOptions.reservation?.["ceremony-price-amount"] ?? "0") + 32.5;
+      case "c8c733e1-13c8-4d96-a388-de30d787f15b":
+        return parseFloat(marriageOptions.reservation?.["ceremony-price-amount"] ?? "0") + 30;
+      default:
+        return parseFloat(marriageOptions.reservation?.["ceremony-price-amount"] ?? "0") + 0;
+    }
+  };
+
   const onMarriageCertificateKindSubmit = (formData: FormData) => {
     if (formData["marriage-certificate-kind"] === "none") {
       push("/voorgenomen-huwelijk/checken");
       return;
     }
 
+    const test = getCosts(formData).toString();
+
     if (!reservation) return;
 
     setSaving(true);
 
-    HuwelijkService.huwelijkPatchItem({
-      id: marriageOptions.id as string,
-      requestBody: {
-        producten: [formData["marriage-certificate-kind"]],
+    setMarriageOptions({
+      ...marriageOptions,
+      reservation: {
+        ...reservation,
+        "ceremony-price-amount": test,
       },
-    })
-      .then(({ kosten }) => {
-        setMarriageOptions({
-          ...marriageOptions,
-          reservation: {
-            ...reservation,
-            "ceremony-price-amount": kosten ? kosten.replace("EUR ", "") : "-",
-          },
-        });
-        push("/voorgenomen-huwelijk/checken");
-      })
-      .finally(() => setSaving(false));
+    });
+
+    setSaving(false);
+    push("/voorgenomen-huwelijk/checken");
+
+    // HuwelijkService.huwelijkPatchItem({
+    //   id: marriageOptions.id as string,
+    //   requestBody: {
+    //     producten: [formData["marriage-certificate-kind"]],
+    //   },
+    // })
+    //   .then(({ kosten }) => {
+
+    //   })
+    //   .finally(() => setSaving(false));
   };
 
   return (
@@ -152,12 +171,7 @@ export default function MultistepForm1() {
                   )}
                 </section>
                 <ButtonGroup>
-                  <Button
-                    disabled={saving || productLoading}
-                    type="submit"
-                    name="type"
-                    appearance="primary-action-button"
-                  >
+                  <Button type="submit" name="type" appearance="primary-action-button">
                     Bevestigen
                   </Button>
                 </ButtonGroup>

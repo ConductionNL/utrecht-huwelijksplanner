@@ -10,7 +10,7 @@ export const PageFooterTemplate = () => {
   const [data, setData] = React.useState<any>(footerData.find((data: any) => data.theme === "utrecht-theme"));
 
   React.useEffect(() => {
-    typeof window !== "undefined" &&
+    if (typeof window !== "undefined")
       setData(
         footerData.find(
           (data: any) => data.theme === process.env.NEXT_PUBLIC_NL_DESIGN_THEME_CLASSNAME ?? "utrecht-theme"

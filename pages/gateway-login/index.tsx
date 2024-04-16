@@ -23,7 +23,7 @@ const GatewayLogin: NextPage = () => {
 
     __request(OpenAPI, {
       method: "POST",
-      url: "/users/login",
+      url: "/api/users/login",
       body: data,
       mediaType: "application/json",
     })
