@@ -51,7 +51,6 @@ type WitnessFormData = {
 export default function MultistepForm1() {
   const { t } = useTranslation(["common", "huwelijksplanner-step-getuigen", "form"]);
   const [marriageOptions] = useContext(MarriageOptionsContext);
-  console.log(marriageOptions);
 
   const { locale = "nl", push } = useRouter();
   const formMethods = useForm<WitnessFormData>();
@@ -75,8 +74,6 @@ export default function MultistepForm1() {
       return;
     }
 
-    console.log(marriageOptions.id);
-
     let hasError = false;
 
     formData.witnesses.forEach((witness, index) => {
@@ -92,20 +89,17 @@ export default function MultistepForm1() {
 
     if (hasError) return;
 
-    console.log(formData);
-
-    console.log(mapWitnesses(formData.witnesses));
-
-    console.log();
-
     if (marriageOptions.id) {
-      HuwelijkService.huwelijkGet(marriageOptions.id.toString()).then((response: any) => {
+      HuwelijkService.huwelijkGet({ id: marriageOptions.id.toString() }).then((response: any) => {
         // Getuigen
-        HuwelijkService.huwelijkPostEigenschap(
-          response.id ?? "",
-          "7e950e1d-04ab-482e-a066-299711d4b4ed",
-          JSON.stringify(mapWitnesses(formData.witnesses ?? [])) ?? ""
-        ).then(() => {
+        HuwelijkService.huwelijkPostEigenschap({
+          requestBody: {
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+            eigenschap:
+              "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/7e950e1d-04ab-482e-a066-299711d4b4ed",
+            waarde: JSON.stringify(mapWitnesses(formData.witnesses ?? [])) ?? "",
+          },
+        }).then(() => {
           push("/voorgenomen-huwelijk/getuigen/succes");
           setLoading(false);
         });

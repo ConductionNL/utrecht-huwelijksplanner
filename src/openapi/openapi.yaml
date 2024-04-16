@@ -8,7 +8,7 @@ servers:
         url: 'https://api.huwelijksplanner.online/'
         description: 'The kubernetes server'
 paths:
-    '/brp/ingeschrevenpersonen/{id}':
+    '/api/brp/ingeschrevenpersonen/{id}':
         get:
             operationId: ingeschrevenpersoon-get-item
             summary: IngeschrevenPersoon
@@ -123,7 +123,7 @@ paths:
                             schema:
                                 type: string
                                 example: 'Object is successfully deleted'
-    /brp/ingeschrevenpersonen:
+    /api/brp/ingeschrevenpersonen:
         get:
             operationId: ingeschrevenpersoon-get-collection
             summary: IngeschrevenPersoon
@@ -3631,6 +3631,84 @@ paths:
                             schema:
                                 type: string
                                 example: 'Object is successfully deleted'
+    /api/zrc/v1/zaken:
+        post:
+            operationId: huwelijk-create
+            summary: Huwelijk
+            tags:
+                - huwelijk
+            description: ''
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: any
+            responses:
+                200:
+                    description: ''
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Huwelijk'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/Huwelijk'
+    "/api/zrc/v1/zaakeigenschappen?zaak=https://api.huwelijksplanner.online/api/zrc/v1/zaken/{id}":
+        get:
+            operationId: huwelijk-get
+            summary: Huwelijk
+            tags:
+                - huwelijk
+            description: ''
+            parameters:
+                -
+                    name: id
+                    in: path
+                    description: ''
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                200:
+                    description: ''
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Huwelijk'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/Huwelijk'
+    /api/zrc/v1/zaakeigenschappen:
+        post:
+            operationId: huwelijk-post-eigenschap
+            summary: Huwelijk
+            tags:
+                - huwelijk
+            description: ''
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                zaak:
+                                    type: string
+                                    format: uri
+                                eigenschap:
+                                    type: string
+                                    format: uri
+                                waarde:
+                                    type: string
+            responses:
+                200:
+                    description: ''
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Huwelijk'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/Huwelijk'
     /hp/huwelijk:
         get:
             operationId: huwelijk-get-collection
@@ -5163,7 +5241,7 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/Medewerker'
-    '/hp/producten/{id}':
+    '/api/hp/producten/{id}':
         get:
             operationId: sdgproduct-get-item
             summary: SDGProduct
@@ -5278,7 +5356,7 @@ paths:
                             schema:
                                 type: string
                                 example: 'Object is successfully deleted'
-    /hp/producten:
+    /api/hp/producten:
         get:
             operationId: sdgproduct-get-collection
             summary: SDGProduct
@@ -7471,7 +7549,7 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/AvailabilityCheck'
-    /hp/calendar/availabilitycheck:
+    /api/hp/calendar/availabilitycheck:
         get:
             operationId: availabilitycheck-get-collection
             summary: AvailabilityCheck
