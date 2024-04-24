@@ -48,7 +48,7 @@ export const LanguageToggleButtons = ({ className, headingLevel }: LanguageToggl
   const router = useRouter();
   const { locales, pathname, query, asPath, locale: currentLocale } = router;
   const headingId = useId();
-  // const [marriageOptions, setMarriageOptions] = useContext(MarriageOptionsContext);
+  const [marriageOptions, setMarriageOptions] = useContext(MarriageOptionsContext);
 
   const languages = [
     {
@@ -99,17 +99,6 @@ export const LanguageToggleButtons = ({ className, headingLevel }: LanguageToggl
             {textContent}
           </LinkButton>
         ))}
-        {/* DEV */}
-        {/* <Button
-          onClick={() =>
-            setMarriageOptions({
-              ...marriageOptions,
-              id: "",
-            })
-          }
-        >
-          Remove
-        </Button> */}
       </ButtonGroup>
     </section>
   );

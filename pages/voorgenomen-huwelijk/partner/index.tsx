@@ -77,17 +77,17 @@ export default function MultistepForm1() {
                 </Paragraph>
                 <ButtonGroup>
                   <UtrechtDigidButton>
-                    <ButtonLink appearance="primary-action-button">
+                    {/* <ButtonLink appearance="primary-action-button">
                       Partner inloggen met DigiD <UtrechtIconArrow />
-                    </ButtonLink>
+                    </ButtonLink> */}
+                    <Button
+                      onClick={() =>
+                        push(`/gateway-login?redirectUrl=/persoonsgegevens/persoon?huwelijkId=${marriageOptions.id}`)
+                      }
+                    >
+                      Testomgeving login
+                    </Button>
                   </UtrechtDigidButton>
-                  <Button
-                    onClick={() =>
-                      push(`/gateway-login?redirectUrl=/persoonsgegevens/persoon?huwelijkId=${marriageOptions.id}`)
-                    }
-                  >
-                    Testomgeving login
-                  </Button>
                 </ButtonGroup>
                 <Paragraph>
                   Of{" "}

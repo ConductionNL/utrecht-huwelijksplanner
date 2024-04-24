@@ -39,7 +39,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 export default function MultistepForm1() {
   const { t } = useTranslation(["common", "huwelijksplanner-step-3"]);
   const { push, locale = "nl" } = useRouter();
-  const [marriageOptions] = useContext(MarriageOptionsContext);
+  const [marriageOptions, setMarriageOptions] = useContext(MarriageOptionsContext);
 
   // FIXME: get slug from state
   const slug = "huwelijk";
@@ -78,13 +78,21 @@ export default function MultistepForm1() {
                 <Paragraph>Na deze stap vragen we ook aan je partner om in te loggen met DigiD.</Paragraph>
                 <ButtonGroup>
                   <UtrechtDigidButton>
-                    <ButtonLink appearance="primary-action-button" href="/login">
+                    {/* <ButtonLink appearance="primary-action-button" href="/login">
                       Inloggen met DigiD <UtrechtIconArrow />
-                    </ButtonLink>
+                    </ButtonLink> */}
+                    <Button
+                      onClick={() => {
+                        setMarriageOptions({
+                          ...marriageOptions,
+                          id: "",
+                        });
+                        push("/gateway-login?redirectUrl=/persoonsgegevens/persoon");
+                      }}
+                    >
+                      Testomgeving login
+                    </Button>
                   </UtrechtDigidButton>
-                  <Button onClick={() => push("/gateway-login?redirectUrl=/persoonsgegevens/persoon")}>
-                    Testomgeving login
-                  </Button>
                 </ButtonGroup>
               </section>
               <Aside>

@@ -23,6 +23,8 @@ import {
 } from "../src/components";
 import { PageFooterTemplate } from "../src/components/huwelijksplanner/PageFooterTemplate";
 import { PageHeaderTemplate } from "../src/components/huwelijksplanner/PageHeaderTemplate";
+import { useContext, useEffect } from "react";
+import { MarriageOptionsContext } from "../src/context/MarriageOptionsContext";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -32,6 +34,7 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 
 export default function HuwelijksplannerStep0() {
   const { t } = useTranslation(["common", "huwelijksplanner-step-0"]);
+  const [_, setMarriageOptions] = useContext(MarriageOptionsContext);
 
   return (
     <Surface>
@@ -64,7 +67,19 @@ export default function HuwelijksplannerStep0() {
                     <UnorderedListItem>Je datum is geregeld!</UnorderedListItem>
                   </UnorderedList>
                   <Paragraph>
-                    <ButtonLink appearance="primary-action-button" href="/trouw-opties">
+                    <ButtonLink
+                      onClick={() =>
+                        setMarriageOptions({
+                          id: "",
+                          maxWitnessPerPartner: 0,
+                          minWitnessPerPartner: 0,
+                          partners: [],
+                          witnesses: [],
+                        })
+                      }
+                      appearance="primary-action-button"
+                      href="/trouw-opties"
+                    >
                       Start
                       <UtrechtIconArrow />
                     </ButtonLink>
