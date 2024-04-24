@@ -90,11 +90,11 @@ export default function MultistepForm1() {
     if (hasError) return;
 
     if (marriageOptions.id) {
-      HuwelijkService.huwelijkGet({ id: marriageOptions.id.toString() }).then((response: any) => {
+      HuwelijkService.huwelijkGet({ id: marriageOptions.id.toString() }).then(() => {
         // Getuigen
         HuwelijkService.huwelijkPostEigenschap({
           requestBody: {
-            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${marriageOptions.id ?? ""}`,
             eigenschap:
               "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/7e950e1d-04ab-482e-a066-299711d4b4ed",
             waarde: JSON.stringify(mapWitnesses(formData.witnesses ?? [])) ?? "",

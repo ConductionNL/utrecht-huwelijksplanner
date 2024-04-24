@@ -77,14 +77,14 @@ export default function MultistepForm1() {
     setSaving(true);
 
     if (marriageOptions.id) {
-      HuwelijkService.huwelijkGet({ id: marriageOptions.id.toString() }).then((response: any) => {
+      HuwelijkService.huwelijkGet({ id: marriageOptions.id.toString() }).then(() => {
         // Kosten
         HuwelijkService.huwelijkPostEigenschap({
           requestBody: {
-            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${marriageOptions.id ?? ""}`,
             eigenschap:
               "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/416de8b8-d5d1-4f44-9a1e-1846d552292c",
-            waarde: getCosts(formData["marriage-certificate-kind"]).toString() ?? "",
+            waarde: `EUR ${getCosts(formData["marriage-certificate-kind"]).toString()}` ?? "",
           },
         }).finally(() => {
           setMarriageOptions({

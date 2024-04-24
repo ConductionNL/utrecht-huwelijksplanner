@@ -236,7 +236,7 @@ export default function MultistepForm1() {
         // Kosten
         HuwelijkService.huwelijkPostEigenschap({
           requestBody: {
-            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${huwelijkIdCreate ?? ""}`,
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
             eigenschap:
               "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/416de8b8-d5d1-4f44-9a1e-1846d552292c",
             waarde: getCosts(reservation) ?? "",
@@ -293,7 +293,7 @@ export default function MultistepForm1() {
         // Partner
         HuwelijkService.huwelijkPostEigenschap({
           requestBody: {
-            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${huwelijkId ?? ""}`,
             eigenschap:
               "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3",
             waarde:
@@ -334,7 +334,7 @@ export default function MultistepForm1() {
         // Partner
         HuwelijkService.huwelijkPostEigenschap({
           requestBody: {
-            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${huwelijkIdCreate ?? ""}`,
             eigenschap:
               "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3",
             waarde:
