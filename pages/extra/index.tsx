@@ -72,33 +72,33 @@ export default function MultistepForm1() {
       return;
     }
 
-    const test = getCosts(formData).toString();
-
     if (!reservation) return;
 
     setSaving(true);
 
-    setMarriageOptions({
-      ...marriageOptions,
-      reservation: {
-        ...reservation,
-        "ceremony-price-amount": test,
-      },
-    });
-
-    setSaving(false);
-    push("/voorgenomen-huwelijk/checken");
-
-    // HuwelijkService.huwelijkPatchItem({
-    //   id: marriageOptions.id as string,
-    //   requestBody: {
-    //     producten: [formData["marriage-certificate-kind"]],
-    //   },
-    // })
-    //   .then(({ kosten }) => {
-
-    //   })
-    //   .finally(() => setSaving(false));
+    if (marriageOptions.id) {
+      HuwelijkService.huwelijkGet({ id: marriageOptions.id.toString() }).then((response: any) => {
+        // Kosten
+        HuwelijkService.huwelijkPostEigenschap({
+          requestBody: {
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+            eigenschap:
+              "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/416de8b8-d5d1-4f44-9a1e-1846d552292c",
+            waarde: getCosts(formData["marriage-certificate-kind"]).toString() ?? "",
+          },
+        }).finally(() => {
+          setMarriageOptions({
+            ...marriageOptions,
+            reservation: {
+              ...reservation,
+              "ceremony-price-amount": getCosts(formData["marriage-certificate-kind"]).toString(),
+            },
+          });
+          setSaving(false);
+          push("/voorgenomen-huwelijk/checken");
+        });
+      });
+    }
   };
 
   return (
@@ -171,7 +171,12 @@ export default function MultistepForm1() {
                   )}
                 </section>
                 <ButtonGroup>
-                  <Button type="submit" name="type" appearance="primary-action-button">
+                  <Button
+                    disabled={saving || productLoading}
+                    type="submit"
+                    name="type"
+                    appearance="primary-action-button"
+                  >
                     Bevestigen
                   </Button>
                 </ButtonGroup>
