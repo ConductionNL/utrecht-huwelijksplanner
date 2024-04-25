@@ -1,13 +1,15 @@
 import { UtrechtBadgeStatus } from "@utrecht/web-component-library-react";
-import merge from "lodash.merge";
+import { addWeeks } from "date-fns";
+import _ from "lodash";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Alert,
   Aside,
+  Button,
   DataList,
   DataListActions,
   DataListItem,
@@ -36,14 +38,9 @@ import {
 } from "../../../src/components";
 import { PageFooterTemplate } from "../../../src/components/huwelijksplanner/PageFooterTemplate";
 import { PageHeaderTemplate } from "../../../src/components/huwelijksplanner/PageHeaderTemplate";
-import {
-  exampleState,
-  HuwelijksplannerPartner,
-  HuwelijksplannerState,
-  Invitee,
-  Reservation,
-} from "../../../src/data/huwelijksplanner-state";
-import { HuwelijksplannerAPI } from "../../../src/openapi/index";
+import { MarriageOptionsContext } from "../../../src/context/MarriageOptionsContext";
+import { exampleState, HuwelijksplannerState, Reservation } from "../../../src/data/huwelijksplanner-state";
+import { HuwelijkService } from "../../../src/generated";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -54,27 +51,53 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
 export default function HuwelijksplannerStep0() {
   const { t } = useTranslation(["huwelijksplanner-step-0", "huwelijksplanner", "form", "common"]);
   const [data, setData] = useState({ ...exampleState });
-  const { locale = "nl" } = useRouter();
+  const [get, setGet] = useState<number>(0);
+  const [partnerData, setPartnerData] = useState<any>({});
+  const [witnessData, setWitnessData] = useState<any>({});
+  const { push, locale = "nl" } = useRouter();
+  const [marriageOptions] = useContext(MarriageOptionsContext);
 
   useEffect(() => {
-    const huwelijkId = "6e69d32c-afdb-4aef-85cc-fd5ff743a84b";
+    if (marriageOptions.id) {
+      HuwelijkService.huwelijkGet({ id: marriageOptions.id }).then((response: any) => {
+        const partnerString = response.results.find(
+          (result: any) =>
+            result.eigenschap ===
+            "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3"
+        );
+        const partners = JSON.parse(partnerString.waarde);
+        setPartnerData(partners);
 
-    HuwelijksplannerAPI.getHuwelijk(huwelijkId).then((huwelijk) => {
-      setData(
-        merge(data, {
-          "ceremony-start": huwelijk.moment,
-          reservation: {
-            "ceremony-start": huwelijk.moment,
-          },
-        })
-      );
-    });
-  }, [data]);
+        const witnessString = response.results.find(
+          (result: any) =>
+            result.eigenschap ===
+            "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/7e950e1d-04ab-482e-a066-299711d4b4ed"
+        );
+        const witnesses = JSON.parse(witnessString.waarde);
+        setWitnessData(witnesses);
+      });
+    }
+  }, [marriageOptions.id]);
 
-  const isValidMinWitnesses = (data: HuwelijksplannerState) => {
-    // Return `true` for valid when every partner has reached the minimum amount of witnesses
-    return data.witnesses.length >= data.minWitnessPerPartner * 2;
+  const getLocation = (location: string) => {
+    switch (location) {
+      case "e1b2aa89-dcd8-4b77-96fc-d41501cbc57f":
+        return `Stadskantoor ${process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"}`;
+
+      default:
+        return `Stadskantoor ${process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"}`;
+    }
   };
+
+  const isValidMinWitnesses = (data: any) => {
+    // Return `true` for valid when every partner has reached the minimum amount of witnesses
+    return data.length >= 1 * 2;
+  };
+
+  function parseISOString(s: any) {
+    const b = s.split(/\D+/);
+    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+  }
 
   const MarriageProcessSteps = ({ data }: { data: HuwelijksplannerState; locale: string }) => (
     <ProcessSteps
@@ -82,14 +105,20 @@ export default function HuwelijksplannerStep0() {
         {
           id: "cc18f54d-aadd-498f-b518-2fc74ce8e9b6",
           marker: 1,
-          status: isValidMinWitnesses(data) ? "checked" : undefined,
+          status: isValidMinWitnesses(witnessData) ? "checked" : undefined,
           title: "Getuigen wijzigen of meer getuigen uitnodigen",
           meta: data.canInviteWitnesses ? (
             <div>
               <Paragraph>
                 tussen vandaag en{" "}
-                {data["inviteWitnessEndDate"] ? (
-                  <DateValue dateTime={data["inviteWitnessEndDate"]} locale={locale} />
+                {marriageOptions.reservation?.["ceremony-start"] !== undefined ? (
+                  <DateValue
+                    dateTime={addWeeks(
+                      parseISOString(marriageOptions.reservation?.["ceremony-start"]),
+                      -2
+                    ).toISOString()}
+                    locale={locale}
+                  />
                 ) : (
                   ""
                 )}{" "}
@@ -102,8 +131,19 @@ export default function HuwelijksplannerStep0() {
           steps: [
             {
               id: "dc18f54d-aadd-498f-b518-2fc74ce8e9b6",
-              status: isValidMinWitnesses(data) ? "checked" : undefined,
-              title: `tussen vandaag en ${data["inviteWitnessEndDate"]}`,
+              status: isValidMinWitnesses(witnessData) ? "checked" : undefined,
+              title: `tussen vandaag en ${
+                marriageOptions.reservation?.["ceremony-start"] !== undefined
+                  ? new Intl.DateTimeFormat(locale, {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }).format(
+                      new Date(addWeeks(parseISOString(marriageOptions.reservation?.["ceremony-start"] ?? ""), -2))
+                    )
+                  : ""
+              }`,
             },
           ],
         },
@@ -121,14 +161,15 @@ export default function HuwelijksplannerStep0() {
           id: "1fc162c6-f1ab-4d1b-9007-d891cbd5614b",
           title: "Trouwdag",
           marker: 4,
-          date: data.reservation
-            ? ((<DateValue dateTime={data.reservation["ceremony-start"]} locale={locale} />) as any)
+          date: marriageOptions.reservation
+            ? ((<DateValue dateTime={marriageOptions.reservation["ceremony-start"]} locale={locale} />) as any)
             : "",
           meta:
-            data.reservation && data.reservation["ceremony-location"] === "Locatie Stadskantoor" ? (
+            marriageOptions.reservation &&
+            marriageOptions.reservation["ceremony-location"] === "e1b2aa89-dcd8-4b77-96fc-d41501cbc57f" ? (
               <Paragraph>
                 Jullie gaan trouwen op de vierde verdieping van het{" "}
-                <Link href="https://www.utrecht.nl/contact/stadskantoor">Stadskantoor Utrecht</Link>.
+                <Link href="#">Stadskantoor {process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"}</Link>.
               </Paragraph>
             ) : (
               ""
@@ -258,16 +299,18 @@ export default function HuwelijksplannerStep0() {
     */
   );
 
-  const PartnerDataList = ({ partner }: { partner: HuwelijksplannerPartner }) => (
+  const PartnerDataList = ({ partner }: { partner: any }) => (
     <DataList className="utrecht-data-list--grid">
       <DataListItem>
         <DataListKey>{t("form:name")}</DataListKey>
-        <DataListValue>{partner.name}</DataListValue>
+        <DataListValue>
+          {partner.naam.voornamen} {partner.naam.voorvoegsel} {partner.naam.geslachtsnaam}
+        </DataListValue>
       </DataListItem>
       <DataListItem>
         <DataListKey>{t("form:tel")}</DataListKey>
         <DataListValue>
-          <NumberValue>{partner.tel}</NumberValue>
+          <NumberValue>{partner.contact.telefoonnummers[0].telefoonnummer}</NumberValue>
         </DataListValue>
         <DataListActions>
           <Link
@@ -281,7 +324,7 @@ export default function HuwelijksplannerStep0() {
       <DataListItem>
         <DataListKey>{t("form:email")}</DataListKey>
         <DataListValue>
-          <URLValue>{partner.email}</URLValue>
+          <URLValue>{partner.contact.emails[0].email}</URLValue>
         </DataListValue>
         <DataListActions>
           <Link
@@ -295,7 +338,7 @@ export default function HuwelijksplannerStep0() {
     </DataList>
   );
 
-  const WitnessDataList = ({ witness }: { witness: Invitee; locale: string }) => (
+  const WitnessDataList = ({ witness }: { witness: any; locale: string }) => (
     <DataList className="utrecht-data-list--grid">
       <DataListItem>
         <DataListKey>{t("form:name")}</DataListKey>
@@ -312,7 +355,7 @@ export default function HuwelijksplannerStep0() {
       <DataListItem>
         <DataListKey>{t("form:email")}</DataListKey>
         <DataListValue>
-          <URLValue>{witness.email}</URLValue>
+          <URLValue>{witness.contact.emails[0].email}</URLValue>
         </DataListValue>
         <DataListActions>
           <Link
@@ -364,7 +407,7 @@ export default function HuwelijksplannerStep0() {
       </DataListItem>
       <DataListItem>
         <DataListKey>{t("huwelijksplanner:ceremony-location")}</DataListKey>
-        <DataListValue>{reservation["ceremony-location"]}</DataListValue>
+        <DataListValue>{getLocation(reservation["ceremony-location"])}</DataListValue>
       </DataListItem>
     </DataList>
   );
@@ -373,13 +416,21 @@ export default function HuwelijksplannerStep0() {
     <Surface>
       <Document>
         <Head>
-          <title>{`${t("huwelijksplanner-payment-success:title")} - ${t("common:website-name")}`}</title>
+          <title>{`Succes - ${process.env.NEXT_PUBLIC_ORGANISATION_NAME}`}</title>
         </Head>
         <Page>
           <PageHeader>
             <PageHeaderTemplate />
           </PageHeader>
           <PageContent>
+            {/* DEV */}
+            {/* <Button
+              onClick={() => {
+                push("/gateway-login?redirectUrl=/voorgenomen-huwelijk/betalen/succes");
+              }}
+            >
+              Login
+            </Button> */}
             <PageContentMain>
               <Heading1>Melding Voorgenomen Huwelijk</Heading1>
               <Paragraph>Stap 5 van 5 – Je huwelijksdatum is geregeld</Paragraph>
@@ -389,7 +440,11 @@ export default function HuwelijksplannerStep0() {
                   <PreHeading>Gelukt</PreHeading>
                 </HeadingGroup>
               </Alert>
-              {data["reservation"] ? <ReservationCard reservation={data["reservation"]} locale={locale} /> : ""}
+              {marriageOptions.reservation ? (
+                <ReservationCard reservation={marriageOptions.reservation} locale={locale} />
+              ) : (
+                ""
+              )}
               <Paragraph>
                 Jullie reservering is geslaagd en we hebben de melding van het voorgenomen huwelijk ontvangen.
               </Paragraph>
@@ -404,21 +459,29 @@ export default function HuwelijksplannerStep0() {
               <section>
                 <Heading2>Dit hebben jullie doorgegeven</Heading2>
                 {data.reservation ? (
-                  <CeremonyDataList data={data} reservation={data.reservation} locale={locale} />
+                  <CeremonyDataList
+                    data={marriageOptions}
+                    reservation={marriageOptions.reservation ?? data.reservation}
+                    locale={locale}
+                  />
                 ) : (
                   ""
                 )}
+                {/* DEV */}
+                {/* <Button onClick={() => setGet(get + 1)}>Get</Button> */}
                 <section>
                   <Heading3>Partners</Heading3>
-                  {data.partners.map((partner, index) => (
-                    <PartnerDataList key={index} partner={partner} />
-                  ))}
+                  {!_.isEmpty(partnerData) &&
+                    partnerData?.map((partner: any, index: number) => (
+                      <PartnerDataList key={index} partner={partner} />
+                    ))}
                 </section>
                 <section>
                   <Heading3>Getuigen</Heading3>
-                  {data.witnesses.map((witness, index) => (
-                    <WitnessDataList key={index} locale={locale} witness={witness} />
-                  ))}
+                  {!_.isEmpty(witnessData) &&
+                    witnessData.map((witness: any, index: number) => (
+                      <WitnessDataList key={index} locale={locale} witness={witness} />
+                    ))}
                 </section>
               </section>
               <Aside>

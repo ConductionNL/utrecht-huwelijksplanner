@@ -34,9 +34,7 @@ import { PageFooterTemplate } from "../../src/components/huwelijksplanner/PageFo
 import { PageHeaderTemplate } from "../../src/components/huwelijksplanner/PageHeaderTemplate";
 import { PersonalDataList } from "../../src/components/huwelijksplanner/PersonalDataList";
 import { MarriageOptionsContext } from "../../src/context/MarriageOptionsContext";
-import { HuwelijkWithId } from "../../src/data/huwelijksplanner-state";
-import { resolveEmbedded } from "../../src/embedded";
-import { AssentService, HuwelijkService } from "../../src/generated";
+import { HuwelijkService } from "../../src/generated";
 import { useIngeschrevenpersoonGetByBsn } from "../../src/hooks/useIngeschrevenpersoonGetByBsn";
 import { getBsnFromJWT } from "../../src/openapi/authentication";
 
@@ -80,7 +78,6 @@ export default function MultistepForm1() {
   const [loadingAmbtenaar, setLoadingAmbtenaar] = useState(false);
   const [loadingLocatie, setLoadingLocatie] = useState(false);
   const [loadingKosten, setLoadingKosten] = useState(false);
-  const [loadingPartner, setLoadingPartner] = useState(false);
   const [loading, setLoading] = useState(false);
   const pageInitialized = useRef(false);
   const invalidStateDescriptionId = useId();
@@ -106,17 +103,10 @@ export default function MultistepForm1() {
       loadingAmbtenaar === true &&
       loadingLocatie === true &&
       loadingKosten === true &&
-      loadingPartner === true &&
       !huwelijkId
     ) {
       HuwelijkService.huwelijkGet({ id: huwelijkIdCreate ?? " " }).then((response: any) => {
         if (!reservation) return;
-
-        const partner = response.results.find(
-          (result: any) =>
-            result.eigenschap ===
-            "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3"
-        );
 
         const moment = response.results.find(
           (result: any) =>
@@ -127,7 +117,6 @@ export default function MultistepForm1() {
         setMarriageOptions({
           ...marriageOptions,
           id: huwelijkIdCreate || "",
-          partners: [partner.waarde],
           reservation: {
             ...reservation,
             "ceremony-end": addMinutes(new Date(moment.waarde || ""), 15).toString(),
@@ -140,7 +129,7 @@ export default function MultistepForm1() {
     } else {
       if (!huwelijkId) setLoading(true);
     }
-  }, [loadingType, loadingCeremonie, loadingMoment, loadingAmbtenaar, loadingLocatie, loadingKosten, loadingPartner]);
+  }, [loadingType, loadingCeremonie, loadingMoment, loadingAmbtenaar, loadingLocatie, loadingKosten]);
 
   useEffect(() => {
     if (
@@ -236,25 +225,13 @@ export default function MultistepForm1() {
         // Kosten
         HuwelijkService.huwelijkPostEigenschap({
           requestBody: {
-            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${huwelijkIdCreate ?? ""}`,
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
             eigenschap:
               "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/416de8b8-d5d1-4f44-9a1e-1846d552292c",
             waarde: getCosts(reservation) ?? "",
           },
         }).finally(() => {
           setLoadingKosten(true);
-        });
-
-        // Partner
-        HuwelijkService.huwelijkPostEigenschap({
-          requestBody: {
-            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
-            eigenschap:
-              "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3",
-            waarde: JSON.stringify(persoonData) ?? "",
-          },
-        }).finally(() => {
-          setLoadingPartner(true);
         });
       })
       .finally(() => {
@@ -291,14 +268,15 @@ export default function MultistepForm1() {
         const partner = JSON.parse(partnerString.waarde);
 
         // Partner
-        HuwelijkService.huwelijkPostEigenschap({
+        HuwelijkService.huwelijkPatchEigenschap({
+          id: partnerString.id,
           requestBody: {
-            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${huwelijkId ?? ""}`,
             eigenschap:
               "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3",
             waarde:
               JSON.stringify([
-                { partner },
+                { ...partner },
                 {
                   ...persoonData,
                   requester: getBsnFromJWT(),
@@ -323,23 +301,15 @@ export default function MultistepForm1() {
       HuwelijkService.huwelijkGet({ id: huwelijkIdCreate ?? " " }).then((response: any) => {
         if (!reservation) return;
 
-        const partnerString = response.results.find(
-          (result: any) =>
-            result.eigenschap ===
-            "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3"
-        );
-
-        const partner = JSON.parse(partnerString.waarde);
-
         // Partner
         HuwelijkService.huwelijkPostEigenschap({
           requestBody: {
-            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+            zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${huwelijkIdCreate ?? ""}`,
             eigenschap:
               "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3",
             waarde:
               JSON.stringify({
-                ...partner,
+                ...persoonData,
                 requester: getBsnFromJWT(),
 
                 contact: {
@@ -354,7 +324,7 @@ export default function MultistepForm1() {
           },
         }).then(() => {
           const newPartner: any = JSON.stringify({
-            ...partner,
+            ...persoonData,
             requester: getBsnFromJWT(),
 
             contact: {

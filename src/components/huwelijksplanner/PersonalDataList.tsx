@@ -8,13 +8,13 @@ export const PersonalDataList = ({ partner }: { partner: IngeschrevenPersoon }) 
   return (
     <DataList aria-describedby="personal-details" className="utrecht-data-list--rows">
       <DataListItem>
-        <DataListKey>{t("form:bsn")}</DataListKey>
+        <DataListKey>{t("form:bsn")}:</DataListKey>
         <DataListValue value={partner.burgerservicenummer ?? ""} emptyDescription={t("form:data-item-unknown")}>
           <NumberValue>{partner.burgerservicenummer}</NumberValue>
         </DataListValue>
-      </DataListItem>
+      </DataListItem>{" "}
       <DataListItem>
-        <DataListKey>{t("form:sex")}</DataListKey>
+        <DataListKey>{t("form:Geslacht")}:</DataListKey>
         <DataListValue value={partner.geslachtsaanduiding ?? ""} emptyDescription={t("form:data-item-unknown")}>
           {partner.geslachtsaanduiding ?? "-"}
         </DataListValue>
