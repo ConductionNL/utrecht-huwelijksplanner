@@ -59,7 +59,7 @@ export default function HuwelijksplannerStep0() {
 
   useEffect(() => {
     if (marriageOptions.id) {
-      HuwelijkService.huwelijkGet({ id: "4d95e776-c887-4a56-86c8-dc01ff324efe" }).then((response: any) => {
+      HuwelijkService.huwelijkGet({ id: marriageOptions.id }).then((response: any) => {
         const partnerString = response.results.find(
           (result: any) =>
             result.eigenschap ===
@@ -77,7 +77,7 @@ export default function HuwelijksplannerStep0() {
         setWitnessData(witnesses);
       });
     }
-  }, []);
+  }, [marriageOptions.id]);
 
   const getLocation = (location: string) => {
     switch (location) {
@@ -423,13 +423,14 @@ export default function HuwelijksplannerStep0() {
             <PageHeaderTemplate />
           </PageHeader>
           <PageContent>
-            <Button
+            {/* DEV */}
+            {/* <Button
               onClick={() => {
                 push("/gateway-login?redirectUrl=/voorgenomen-huwelijk/betalen/succes");
               }}
             >
               Login
-            </Button>
+            </Button> */}
             <PageContentMain>
               <Heading1>Melding Voorgenomen Huwelijk</Heading1>
               <Paragraph>Stap 5 van 5 – Je huwelijksdatum is geregeld</Paragraph>
@@ -466,7 +467,8 @@ export default function HuwelijksplannerStep0() {
                 ) : (
                   ""
                 )}
-                <Button onClick={() => setGet(get + 1)}>Get</Button>
+                {/* DEV */}
+                {/* <Button onClick={() => setGet(get + 1)}>Get</Button> */}
                 <section>
                   <Heading3>Partners</Heading3>
                   {!_.isEmpty(partnerData) &&
