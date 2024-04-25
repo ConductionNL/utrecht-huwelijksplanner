@@ -3709,6 +3709,45 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/Huwelijk'
+    "/api/zrc/v1/zaakeigenschappen/{id}":
+        patch:
+            operationId: huwelijk-patch-eigenschap
+            summary: Huwelijk
+            tags:
+                - huwelijk
+            description: ''
+            parameters:
+                -
+                    name: id
+                    in: path
+                    description: ''
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                zaak:
+                                    type: string
+                                    format: uri
+                                eigenschap:
+                                    type: string
+                                    format: uri
+                                waarde:
+                                    type: string
+            responses:
+                200:
+                    description: ''
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Huwelijk'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/Huwelijk'
     /hp/huwelijk:
         get:
             operationId: huwelijk-get-collection
