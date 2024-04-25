@@ -119,7 +119,6 @@ function MultistepForm1() {
     const [loadingAmbtenaar, setLoadingAmbtenaar] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(false);
     const [loadingLocatie, setLoadingLocatie] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(false);
     const [loadingKosten, setLoadingKosten] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(false);
-    const [loadingPartner, setLoadingPartner] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(false);
     const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(false);
     const pageInitialized = (0,react__WEBPACK_IMPORTED_MODULE_7__.useRef)(false);
     const invalidStateDescriptionId = (0,react__WEBPACK_IMPORTED_MODULE_7__.useId)();
@@ -136,19 +135,15 @@ function MultistepForm1() {
         }
     };
     (0,react__WEBPACK_IMPORTED_MODULE_7__.useEffect)(()=>{
-        if (loadingType === true && loadingCeremonie === true && loadingMoment === true && loadingAmbtenaar === true && loadingLocatie === true && loadingKosten === true && loadingPartner === true && !huwelijkId) {
+        if (loadingType === true && loadingCeremonie === true && loadingMoment === true && loadingAmbtenaar === true && loadingLocatie === true && loadingKosten === true && !huwelijkId) {
             _src_generated__WEBPACK_IMPORTED_MODULE_17__/* .HuwelijkService.huwelijkGet */ ._H.huwelijkGet({
                 id: huwelijkIdCreate ?? " "
             }).then((response)=>{
                 if (!reservation) return;
-                const partner = response.results.find((result)=>result.eigenschap === "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3");
                 const moment = response.results.find((result)=>result.eigenschap === "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/f81cb98c-233c-4b8d-9de3-4ecc93032012");
                 setMarriageOptions({
                     ...marriageOptions,
                     id: huwelijkIdCreate || "",
-                    partners: [
-                        partner.waarde
-                    ],
                     reservation: {
                         ...reservation,
                         "ceremony-end": (0,date_fns__WEBPACK_IMPORTED_MODULE_2__.addMinutes)(new Date(moment.waarde || ""), 15).toString(),
@@ -167,8 +162,7 @@ function MultistepForm1() {
         loadingMoment,
         loadingAmbtenaar,
         loadingLocatie,
-        loadingKosten,
-        loadingPartner
+        loadingKosten
     ]);
     (0,react__WEBPACK_IMPORTED_MODULE_7__.useEffect)(()=>{
         if (declarationCheckboxData["correct-information-and-complete"] === true && declarationCheckboxData["not-marrying-relative"] === true && declarationCheckboxData["unmarried"] === true) {
@@ -248,22 +242,12 @@ function MultistepForm1() {
             // Kosten
             _src_generated__WEBPACK_IMPORTED_MODULE_17__/* .HuwelijkService.huwelijkPostEigenschap */ ._H.huwelijkPostEigenschap({
                 requestBody: {
-                    zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${huwelijkIdCreate ?? ""}`,
+                    zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
                     eigenschap: "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/416de8b8-d5d1-4f44-9a1e-1846d552292c",
                     waarde: getCosts(reservation) ?? ""
                 }
             }).finally(()=>{
                 setLoadingKosten(true);
-            });
-            // Partner
-            _src_generated__WEBPACK_IMPORTED_MODULE_17__/* .HuwelijkService.huwelijkPostEigenschap */ ._H.huwelijkPostEigenschap({
-                requestBody: {
-                    zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
-                    eigenschap: "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3",
-                    waarde: JSON.stringify(persoonData) ?? ""
-                }
-            }).finally(()=>{
-                setLoadingPartner(true);
             });
         }).finally(()=>{
             setLoading(false);
@@ -308,13 +292,14 @@ function MultistepForm1() {
                 const partnerString = response.results.find((result)=>result.eigenschap === "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3");
                 const partner = JSON.parse(partnerString.waarde);
                 // Partner
-                _src_generated__WEBPACK_IMPORTED_MODULE_17__/* .HuwelijkService.huwelijkPostEigenschap */ ._H.huwelijkPostEigenschap({
+                _src_generated__WEBPACK_IMPORTED_MODULE_17__/* .HuwelijkService.huwelijkPatchEigenschap */ ._H.huwelijkPatchEigenschap({
+                    id: partnerString.id,
                     requestBody: {
-                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${huwelijkId ?? ""}`,
                         eigenschap: "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3",
                         waarde: JSON.stringify([
                             {
-                                partner
+                                ...partner
                             },
                             {
                                 ...persoonData,
@@ -340,15 +325,13 @@ function MultistepForm1() {
                 id: huwelijkIdCreate ?? " "
             }).then((response)=>{
                 if (!reservation) return;
-                const partnerString = response.results.find((result)=>result.eigenschap === "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3");
-                const partner = JSON.parse(partnerString.waarde);
                 // Partner
                 _src_generated__WEBPACK_IMPORTED_MODULE_17__/* .HuwelijkService.huwelijkPostEigenschap */ ._H.huwelijkPostEigenschap({
                     requestBody: {
-                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${huwelijkIdCreate ?? ""}`,
                         eigenschap: "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3",
                         waarde: JSON.stringify({
-                            ...partner,
+                            ...persoonData,
                             requester: (0,_src_openapi_authentication__WEBPACK_IMPORTED_MODULE_19__/* .getBsnFromJWT */ .p0)(),
                             contact: {
                                 subjectIdentificatie: {
@@ -362,7 +345,7 @@ function MultistepForm1() {
                     }
                 }).then(()=>{
                     const newPartner = JSON.stringify({
-                        ...partner,
+                        ...persoonData,
                         requester: (0,_src_openapi_authentication__WEBPACK_IMPORTED_MODULE_19__/* .getBsnFromJWT */ .p0)(),
                         contact: {
                             subjectIdentificatie: {
@@ -813,8 +796,11 @@ const PersonalDataList = ({ partner  })=>{
         children: [
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.DataListItem, {
                 children: [
-                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.DataListKey, {
-                        children: t("form:bsn")
+                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.DataListKey, {
+                        children: [
+                            t("form:bsn"),
+                            ":"
+                        ]
                     }),
                     /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.DataListValue, {
                         value: partner.burgerservicenummer ?? "",
@@ -825,10 +811,14 @@ const PersonalDataList = ({ partner  })=>{
                     })
                 ]
             }),
+            " ",
             /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.DataListItem, {
                 children: [
-                    /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.DataListKey, {
-                        children: t("form:sex")
+                    /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.DataListKey, {
+                        children: [
+                            t("form:Geslacht"),
+                            ":"
+                        ]
                     }),
                     /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_utrecht_component_library_react__WEBPACK_IMPORTED_MODULE_1__.DataListValue, {
                         value: partner.geslachtsaanduiding ?? "",
@@ -1221,7 +1211,7 @@ module.exports = import("uuid");;
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,277,525,707,670,850,981], () => (__webpack_exec__(5488)));
+var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,670,277,707,850,981], () => (__webpack_exec__(5488)));
 module.exports = __webpack_exports__;
 
 })();

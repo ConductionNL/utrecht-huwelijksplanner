@@ -119,11 +119,11 @@ function MultistepForm1() {
         if (marriageOptions.id) {
             _src_generated__WEBPACK_IMPORTED_MODULE_12__/* .HuwelijkService.huwelijkGet */ ._H.huwelijkGet({
                 id: marriageOptions.id.toString()
-            }).then((response)=>{
+            }).then(()=>{
                 // Getuigen
                 _src_generated__WEBPACK_IMPORTED_MODULE_12__/* .HuwelijkService.huwelijkPostEigenschap */ ._H.huwelijkPostEigenschap({
                     requestBody: {
-                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${marriageOptions.id ?? ""}`,
                         eigenschap: "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/7e950e1d-04ab-482e-a066-299711d4b4ed",
                         waarde: JSON.stringify(mapWitnesses(formData.witnesses ?? [])) ?? ""
                     }
@@ -510,7 +510,7 @@ module.exports = import("react-hook-form");;
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,277,525,707,670,850], () => (__webpack_exec__(5782)));
+var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,670,277,707,850], () => (__webpack_exec__(5782)));
 module.exports = __webpack_exports__;
 
 })();

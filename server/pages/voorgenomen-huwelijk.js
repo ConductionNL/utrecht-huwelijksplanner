@@ -69,7 +69,7 @@ function MultistepForm1() {
         "huwelijksplanner-step-3"
     ]);
     const { push , locale ="nl"  } = (0,router_.useRouter)();
-    const [marriageOptions] = (0,external_react_.useContext)(MarriageOptionsContext/* MarriageOptionsContext */.K);
+    const [marriageOptions, setMarriageOptions] = (0,external_react_.useContext)(MarriageOptionsContext/* MarriageOptionsContext */.K);
     // FIXME: get slug from state
     const slug = "huwelijk";
     const productName = "Eenvoudig trouwen";
@@ -133,23 +133,19 @@ function MultistepForm1() {
                                                 /*#__PURE__*/ jsx_runtime.jsx(components.Paragraph, {
                                                     children: "Na deze stap vragen we ook aan je partner om in te loggen met DigiD."
                                                 }),
-                                                /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.ButtonGroup, {
-                                                    children: [
-                                                        /*#__PURE__*/ jsx_runtime.jsx(index_cjs/* UtrechtDigidButton */.JoR, {
-                                                            children: /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.ButtonLink, {
-                                                                appearance: "primary-action-button",
-                                                                href: "/login",
-                                                                children: [
-                                                                    "Inloggen met DigiD ",
-                                                                    /*#__PURE__*/ jsx_runtime.jsx(index_cjs/* UtrechtIconArrow */.tf5, {})
-                                                                ]
-                                                            })
-                                                        }),
-                                                        /*#__PURE__*/ jsx_runtime.jsx(component_library_react_.Button, {
-                                                            onClick: ()=>push("/gateway-login?redirectUrl=/persoonsgegevens/persoon"),
+                                                /*#__PURE__*/ jsx_runtime.jsx(components.ButtonGroup, {
+                                                    children: /*#__PURE__*/ jsx_runtime.jsx(index_cjs/* UtrechtDigidButton */.JoR, {
+                                                        children: /*#__PURE__*/ jsx_runtime.jsx(component_library_react_.Button, {
+                                                            onClick: ()=>{
+                                                                setMarriageOptions({
+                                                                    ...marriageOptions,
+                                                                    id: ""
+                                                                });
+                                                                push("/gateway-login?redirectUrl=/persoonsgegevens/persoon");
+                                                            },
                                                             children: "Testomgeving login"
                                                         })
-                                                    ]
+                                                    })
                                                 })
                                             ]
                                         }),
@@ -352,7 +348,7 @@ module.exports = require("react-dom");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,277,525,707,670], () => (__webpack_exec__(8679)));
+var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,670,277,707], () => (__webpack_exec__(8679)));
 module.exports = __webpack_exports__;
 
 })();

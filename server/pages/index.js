@@ -26,13 +26,19 @@ var head_default = /*#__PURE__*/__webpack_require__.n(head_);
 var external_next_i18next_ = __webpack_require__(1377);
 // EXTERNAL MODULE: external "next-i18next/serverSideTranslations"
 var serverSideTranslations_ = __webpack_require__(5460);
+// EXTERNAL MODULE: external "react"
+var external_react_ = __webpack_require__(6689);
 // EXTERNAL MODULE: ./src/components/index.ts
 var components = __webpack_require__(4277);
 // EXTERNAL MODULE: ./src/components/huwelijksplanner/PageFooterTemplate.tsx + 1 modules
 var PageFooterTemplate = __webpack_require__(6198);
 // EXTERNAL MODULE: ./src/components/huwelijksplanner/PageHeaderTemplate.tsx
 var PageHeaderTemplate = __webpack_require__(5428);
+// EXTERNAL MODULE: ./src/context/MarriageOptionsContext.tsx
+var MarriageOptionsContext = __webpack_require__(2670);
 ;// CONCATENATED MODULE: ./pages/index.tsx
+
+
 
 
 
@@ -53,6 +59,7 @@ function HuwelijksplannerStep0() {
         "common",
         "huwelijksplanner-step-0"
     ]);
+    const [_, setMarriageOptions] = (0,external_react_.useContext)(MarriageOptionsContext/* MarriageOptionsContext */.K);
     return /*#__PURE__*/ jsx_runtime.jsx(components.Surface, {
         children: /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Document, {
             children: [
@@ -121,6 +128,13 @@ function HuwelijksplannerStep0() {
                                                 }),
                                                 /*#__PURE__*/ jsx_runtime.jsx(components.Paragraph, {
                                                     children: /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.ButtonLink, {
+                                                        onClick: ()=>setMarriageOptions({
+                                                                id: "",
+                                                                maxWitnessPerPartner: 0,
+                                                                minWitnessPerPartner: 0,
+                                                                partners: [],
+                                                                witnesses: []
+                                                            }),
                                                         appearance: "primary-action-button",
                                                         href: "/trouw-opties",
                                                         children: [
@@ -348,7 +362,7 @@ module.exports = require("react-dom");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,277,707], () => (__webpack_exec__(1599)));
+var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,670,277,707], () => (__webpack_exec__(1599)));
 module.exports = __webpack_exports__;
 
 })();

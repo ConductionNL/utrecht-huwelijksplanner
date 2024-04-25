@@ -5,7 +5,7 @@ exports.id = 695;
 exports.ids = [695,981];
 exports.modules = {
 
-/***/ 8542:
+/***/ 984:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -23,9 +23,9 @@ var jsx_runtime = __webpack_require__(5893);
 var component_library_react_ = __webpack_require__(1353);
 // EXTERNAL MODULE: external "date-fns"
 var external_date_fns_ = __webpack_require__(7727);
-;// CONCATENATED MODULE: external "lodash"
-const external_lodash_namespaceObject = require("lodash");
-var external_lodash_default = /*#__PURE__*/__webpack_require__.n(external_lodash_namespaceObject);
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(6517);
+var external_lodash_default = /*#__PURE__*/__webpack_require__.n(external_lodash_);
 // EXTERNAL MODULE: external "next/head"
 var head_ = __webpack_require__(968);
 var head_default = /*#__PURE__*/__webpack_require__.n(head_);
@@ -456,6 +456,13 @@ module.exports = require("date-fns");
 
 /***/ }),
 
+/***/ 6517:
+/***/ ((module) => {
+
+module.exports = require("lodash");
+
+/***/ }),
+
 /***/ 2945:
 /***/ ((module) => {
 
@@ -610,7 +617,7 @@ module.exports = require("react-dom");
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,277,525,707,670,850], () => (__webpack_exec__(8542)));
+var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,670,277,707,850], () => (__webpack_exec__(984)));
 module.exports = __webpack_exports__;
 
 })();

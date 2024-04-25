@@ -127,22 +127,13 @@ function MultistepForm1() {
                                                 /*#__PURE__*/ jsx_runtime.jsx(components.Paragraph, {
                                                     children: "We hebben jouw gegevens ontvangen. Laat nu je partner inloggen met DigiD om zijn/haar gegevens te bevestigen."
                                                 }),
-                                                /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.ButtonGroup, {
-                                                    children: [
-                                                        /*#__PURE__*/ jsx_runtime.jsx(index_cjs/* UtrechtDigidButton */.JoR, {
-                                                            children: /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.ButtonLink, {
-                                                                appearance: "primary-action-button",
-                                                                children: [
-                                                                    "Partner inloggen met DigiD ",
-                                                                    /*#__PURE__*/ jsx_runtime.jsx(index_cjs/* UtrechtIconArrow */.tf5, {})
-                                                                ]
-                                                            })
-                                                        }),
-                                                        /*#__PURE__*/ jsx_runtime.jsx(component_library_react_.Button, {
+                                                /*#__PURE__*/ jsx_runtime.jsx(components.ButtonGroup, {
+                                                    children: /*#__PURE__*/ jsx_runtime.jsx(index_cjs/* UtrechtDigidButton */.JoR, {
+                                                        children: /*#__PURE__*/ jsx_runtime.jsx(component_library_react_.Button, {
                                                             onClick: ()=>push(`/gateway-login?redirectUrl=/persoonsgegevens/persoon?huwelijkId=${marriageOptions.id}`),
                                                             children: "Testomgeving login"
                                                         })
-                                                    ]
+                                                    })
                                                 }),
                                                 /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Paragraph, {
                                                     children: [
@@ -342,7 +333,7 @@ module.exports = require("react-dom");
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,277,525,707,670], () => (__webpack_exec__(6170)));
+var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,670,277,707], () => (__webpack_exec__(6170)));
 module.exports = __webpack_exports__;
 
 })();

@@ -2,10 +2,10 @@
 (() => {
 var exports = {};
 exports.id = 464;
-exports.ids = [464,981];
+exports.ids = [464];
 exports.modules = {
 
-/***/ 6507:
+/***/ 4640:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -21,9 +21,11 @@ __webpack_require__.d(__webpack_exports__, {
 var jsx_runtime = __webpack_require__(5893);
 // EXTERNAL MODULE: ./node_modules/@utrecht/web-component-library-react/dist/index.cjs.js
 var index_cjs = __webpack_require__(4146);
-;// CONCATENATED MODULE: external "lodash.merge"
-const external_lodash_merge_namespaceObject = require("lodash.merge");
-var external_lodash_merge_default = /*#__PURE__*/__webpack_require__.n(external_lodash_merge_namespaceObject);
+// EXTERNAL MODULE: external "date-fns"
+var external_date_fns_ = __webpack_require__(7727);
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(6517);
+var external_lodash_default = /*#__PURE__*/__webpack_require__.n(external_lodash_);
 // EXTERNAL MODULE: external "next/head"
 var head_ = __webpack_require__(968);
 var head_default = /*#__PURE__*/__webpack_require__.n(head_);
@@ -41,62 +43,15 @@ var components = __webpack_require__(4277);
 var PageFooterTemplate = __webpack_require__(6198);
 // EXTERNAL MODULE: ./src/components/huwelijksplanner/PageHeaderTemplate.tsx
 var PageHeaderTemplate = __webpack_require__(5428);
+// EXTERNAL MODULE: ./src/context/MarriageOptionsContext.tsx
+var MarriageOptionsContext = __webpack_require__(2670);
 // EXTERNAL MODULE: ./src/data/huwelijksplanner-state.ts
 var huwelijksplanner_state = __webpack_require__(8525);
-// EXTERNAL MODULE: ./src/embedded.ts
-var embedded = __webpack_require__(8981);
 // EXTERNAL MODULE: ./src/generated/index.ts + 84 modules
 var generated = __webpack_require__(8690);
-;// CONCATENATED MODULE: ./src/openapi/test-env.ts
-
-
-const MissingIdError = ()=>new TypeError("Argument must have `id` property");
-const putAssent = (data)=>data.id ? generated/* AssentService.assentPutItem */.J1.assentPutItem({
-        id: data.id,
-        requestBody: data
-    }) : Promise.reject(MissingIdError());
-const HuwelijksplannerAPI = {
-    getProducten: ()=>generated/* SdgproductService.sdgproductGetCollection */.ZD.sdgproductGetCollection({
-            upnLabel: ""
-        }).then((data)=>(0,embedded/* resolveEmbedded */.g)(data.results || [])),
-    getAccommodations: ()=>generated/* AccommodationService.accommodationGetCollection */.fz.accommodationGetCollection({
-            name: ""
-        }).then((data)=>(0,embedded/* resolveEmbedded */.g)(data.results || [])),
-    getAssents: ()=>generated/* AssentService.assentGetCollection */.J1.assentGetCollection({
-            requester: "",
-            name: ""
-        }).then((data)=>(0,embedded/* resolveEmbedded */.g)(data.results || [])),
-    deleteAssent: (data)=>data.id ? generated/* AssentService.assentDeleteItem */.J1.assentDeleteItem({
-            id: data.id
-        }) : Promise.reject(MissingIdError()),
-    putAssent,
-    declineAssent: (assent)=>putAssent({
-            ...assent,
-            status: generated/* Assent.status.DECLINED */.gN.status.DECLINED
-        }),
-    grantAssent: (assent)=>putAssent({
-            ...assent,
-            status: generated/* Assent.status.GRANTED */.gN.status.GRANTED
-        }),
-    getHuwelijk: (id)=>generated/* HuwelijkService.huwelijkGetItem */._H.huwelijkGetItem({
-            id
-        }).then((data)=>(0,embedded/* resolveEmbedded */.g)(data)),
-    getHuwelijken: ()=>generated/* HuwelijkService.huwelijkGetCollection */._H.huwelijkGetCollection({}).then((data)=>(0,embedded/* resolveEmbedded */.g)(data.results || [])),
-    deleteHuwelijk: (huwelijk)=>generated/* HuwelijkService.huwelijkDeleteItem */._H.huwelijkDeleteItem({
-            id: huwelijk.id || ""
-        }),
-    getKlanten: ()=>generated/* KlantService.klantGetCollection */.xQ.klantGetCollection({}).then((data)=>(0,embedded/* resolveEmbedded */.g)(data.results)),
-    getKlant: (uuid)=>generated/* KlantService.klantGetItem */.xQ.klantGetItem({
-            id: uuid
-        }),
-    getAvailability: ()=>generated/* AvailabilityService.availabilityGetCollection */.N2.availabilityGetCollection({}).then((data)=>data.results || [])
-};
-
-;// CONCATENATED MODULE: ./src/openapi/index.ts
-// export * from './mock-api';
-
-
 ;// CONCATENATED MODULE: ./pages/voorgenomen-huwelijk/betalen/succes.tsx
+
+
 
 
 
@@ -130,38 +85,57 @@ function HuwelijksplannerStep0() {
     const [data, setData] = (0,external_react_.useState)({
         ...huwelijksplanner_state/* exampleState */.A
     });
-    const { locale ="nl"  } = (0,router_.useRouter)();
+    const [get, setGet] = (0,external_react_.useState)(0);
+    const [partnerData, setPartnerData] = (0,external_react_.useState)({});
+    const [witnessData, setWitnessData] = (0,external_react_.useState)({});
+    const { push , locale ="nl"  } = (0,router_.useRouter)();
+    const [marriageOptions] = (0,external_react_.useContext)(MarriageOptionsContext/* MarriageOptionsContext */.K);
     (0,external_react_.useEffect)(()=>{
-        const huwelijkId = "6e69d32c-afdb-4aef-85cc-fd5ff743a84b";
-        HuwelijksplannerAPI.getHuwelijk(huwelijkId).then((huwelijk)=>{
-            setData(external_lodash_merge_default()(data, {
-                "ceremony-start": huwelijk.moment,
-                reservation: {
-                    "ceremony-start": huwelijk.moment
-                }
-            }));
-        });
+        if (marriageOptions.id) {
+            generated/* HuwelijkService.huwelijkGet */._H.huwelijkGet({
+                id: marriageOptions.id
+            }).then((response)=>{
+                const partnerString = response.results.find((result)=>result.eigenschap === "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/4dee2797-1faf-4dc0-95f8-ddc4956302f3");
+                const partners = JSON.parse(partnerString.waarde);
+                setPartnerData(partners);
+                const witnessString = response.results.find((result)=>result.eigenschap === "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/7e950e1d-04ab-482e-a066-299711d4b4ed");
+                const witnesses = JSON.parse(witnessString.waarde);
+                setWitnessData(witnesses);
+            });
+        }
     }, [
-        data
+        marriageOptions.id
     ]);
+    const getLocation = (location)=>{
+        switch(location){
+            case "e1b2aa89-dcd8-4b77-96fc-d41501cbc57f":
+                return `Stadskantoor ${process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"}`;
+            default:
+                return `Stadskantoor ${process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"}`;
+        }
+    };
     const isValidMinWitnesses = (data)=>{
         // Return `true` for valid when every partner has reached the minimum amount of witnesses
-        return data.witnesses.length >= data.minWitnessPerPartner * 2;
+        return data.length >= 1 * 2;
     };
+    function parseISOString(s) {
+        const b = s.split(/\D+/);
+        return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+    }
     const MarriageProcessSteps = ({ data  })=>/*#__PURE__*/ jsx_runtime.jsx(components.ProcessSteps, {
             steps: [
                 {
                     id: "cc18f54d-aadd-498f-b518-2fc74ce8e9b6",
                     marker: 1,
-                    status: isValidMinWitnesses(data) ? "checked" : undefined,
+                    status: isValidMinWitnesses(witnessData) ? "checked" : undefined,
                     title: "Getuigen wijzigen of meer getuigen uitnodigen",
                     meta: data.canInviteWitnesses ? /*#__PURE__*/ jsx_runtime.jsx("div", {
                         children: /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Paragraph, {
                             children: [
                                 "tussen vandaag en",
                                 " ",
-                                data["inviteWitnessEndDate"] ? /*#__PURE__*/ jsx_runtime.jsx(components.DateValue, {
-                                    dateTime: data["inviteWitnessEndDate"],
+                                marriageOptions.reservation?.["ceremony-start"] !== undefined ? /*#__PURE__*/ jsx_runtime.jsx(components.DateValue, {
+                                    dateTime: (0,external_date_fns_.addWeeks)(parseISOString(marriageOptions.reservation?.["ceremony-start"]), -2).toISOString(),
                                     locale: locale
                                 }) : "",
                                 " ",
@@ -175,8 +149,13 @@ function HuwelijksplannerStep0() {
                     steps: [
                         {
                             id: "dc18f54d-aadd-498f-b518-2fc74ce8e9b6",
-                            status: isValidMinWitnesses(data) ? "checked" : undefined,
-                            title: `tussen vandaag en ${data["inviteWitnessEndDate"]}`
+                            status: isValidMinWitnesses(witnessData) ? "checked" : undefined,
+                            title: `tussen vandaag en ${marriageOptions.reservation?.["ceremony-start"] !== undefined ? new Intl.DateTimeFormat(locale, {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric"
+                            }).format(new Date((0,external_date_fns_.addWeeks)(parseISOString(marriageOptions.reservation?.["ceremony-start"] ?? ""), -2))) : ""}`
                         }
                     ]
                 },
@@ -194,17 +173,20 @@ function HuwelijksplannerStep0() {
                     id: "1fc162c6-f1ab-4d1b-9007-d891cbd5614b",
                     title: "Trouwdag",
                     marker: 4,
-                    date: data.reservation ? /*#__PURE__*/ jsx_runtime.jsx(components.DateValue, {
-                        dateTime: data.reservation["ceremony-start"],
+                    date: marriageOptions.reservation ? /*#__PURE__*/ jsx_runtime.jsx(components.DateValue, {
+                        dateTime: marriageOptions.reservation["ceremony-start"],
                         locale: locale
                     }) : "",
-                    meta: data.reservation && data.reservation["ceremony-location"] === "Locatie Stadskantoor" ? /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Paragraph, {
+                    meta: marriageOptions.reservation && marriageOptions.reservation["ceremony-location"] === "e1b2aa89-dcd8-4b77-96fc-d41501cbc57f" ? /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Paragraph, {
                         children: [
                             "Jullie gaan trouwen op de vierde verdieping van het",
                             " ",
-                            /*#__PURE__*/ jsx_runtime.jsx(components.Link, {
-                                href: "https://www.utrecht.nl/contact/stadskantoor",
-                                children: "Stadskantoor Utrecht"
+                            /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Link, {
+                                href: "#",
+                                children: [
+                                    "Stadskantoor ",
+                                    process.env.NEXT_PUBLIC_ORGANISATION_NAME_SHORT ?? "Utrecht"
+                                ]
                             }),
                             "."
                         ]
@@ -220,8 +202,14 @@ function HuwelijksplannerStep0() {
                         /*#__PURE__*/ jsx_runtime.jsx(components.DataListKey, {
                             children: t("form:name")
                         }),
-                        /*#__PURE__*/ jsx_runtime.jsx(components.DataListValue, {
-                            children: partner.name
+                        /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.DataListValue, {
+                            children: [
+                                partner.naam.voornamen,
+                                " ",
+                                partner.naam.voorvoegsel,
+                                " ",
+                                partner.naam.geslachtsnaam
+                            ]
                         })
                     ]
                 }),
@@ -232,7 +220,7 @@ function HuwelijksplannerStep0() {
                         }),
                         /*#__PURE__*/ jsx_runtime.jsx(components.DataListValue, {
                             children: /*#__PURE__*/ jsx_runtime.jsx(components.NumberValue, {
-                                children: partner.tel
+                                children: partner.contact.telefoonnummers[0].telefoonnummer
                             })
                         }),
                         /*#__PURE__*/ jsx_runtime.jsx(components.DataListActions, {
@@ -253,7 +241,7 @@ function HuwelijksplannerStep0() {
                         }),
                         /*#__PURE__*/ jsx_runtime.jsx(components.DataListValue, {
                             children: /*#__PURE__*/ jsx_runtime.jsx(components.URLValue, {
-                                children: partner.email
+                                children: partner.contact.emails[0].email
                             })
                         }),
                         /*#__PURE__*/ jsx_runtime.jsx(components.DataListActions, {
@@ -298,7 +286,7 @@ function HuwelijksplannerStep0() {
                         }),
                         /*#__PURE__*/ jsx_runtime.jsx(components.DataListValue, {
                             children: /*#__PURE__*/ jsx_runtime.jsx(components.URLValue, {
-                                children: witness.email
+                                children: witness.contact.emails[0].email
                             })
                         }),
                         /*#__PURE__*/ jsx_runtime.jsx(components.DataListActions, {
@@ -374,7 +362,7 @@ function HuwelijksplannerStep0() {
                             children: t("huwelijksplanner:ceremony-location")
                         }),
                         /*#__PURE__*/ jsx_runtime.jsx(components.DataListValue, {
-                            children: reservation["ceremony-location"]
+                            children: getLocation(reservation["ceremony-location"])
                         })
                     ]
                 })
@@ -385,7 +373,7 @@ function HuwelijksplannerStep0() {
             children: [
                 /*#__PURE__*/ jsx_runtime.jsx((head_default()), {
                     children: /*#__PURE__*/ jsx_runtime.jsx("title", {
-                        children: `${t("huwelijksplanner-payment-success:title")} - ${t("common:website-name")}`
+                        children: `Succes - ${"Gemeente Leiden"}`
                     })
                 }),
                 /*#__PURE__*/ (0,jsx_runtime.jsxs)(components.Page, {
@@ -415,8 +403,8 @@ function HuwelijksplannerStep0() {
                                             ]
                                         })
                                     }),
-                                    data["reservation"] ? /*#__PURE__*/ jsx_runtime.jsx(components.ReservationCard, {
-                                        reservation: data["reservation"],
+                                    marriageOptions.reservation ? /*#__PURE__*/ jsx_runtime.jsx(components.ReservationCard, {
+                                        reservation: marriageOptions.reservation,
                                         locale: locale
                                     }) : "",
                                     /*#__PURE__*/ jsx_runtime.jsx(components.Paragraph, {
@@ -442,8 +430,8 @@ function HuwelijksplannerStep0() {
                                                 children: "Dit hebben jullie doorgegeven"
                                             }),
                                             data.reservation ? /*#__PURE__*/ jsx_runtime.jsx(CeremonyDataList, {
-                                                data: data,
-                                                reservation: data.reservation,
+                                                data: marriageOptions,
+                                                reservation: marriageOptions.reservation ?? data.reservation,
                                                 locale: locale
                                             }) : "",
                                             /*#__PURE__*/ (0,jsx_runtime.jsxs)("section", {
@@ -451,7 +439,7 @@ function HuwelijksplannerStep0() {
                                                     /*#__PURE__*/ jsx_runtime.jsx(components.Heading3, {
                                                         children: "Partners"
                                                     }),
-                                                    data.partners.map((partner, index)=>/*#__PURE__*/ jsx_runtime.jsx(PartnerDataList, {
+                                                    !external_lodash_default().isEmpty(partnerData) && partnerData?.map((partner, index)=>/*#__PURE__*/ jsx_runtime.jsx(PartnerDataList, {
                                                             partner: partner
                                                         }, index))
                                                 ]
@@ -461,7 +449,7 @@ function HuwelijksplannerStep0() {
                                                     /*#__PURE__*/ jsx_runtime.jsx(components.Heading3, {
                                                         children: "Getuigen"
                                                     }),
-                                                    data.witnesses.map((witness, index)=>/*#__PURE__*/ jsx_runtime.jsx(WitnessDataList, {
+                                                    !external_lodash_default().isEmpty(witnessData) && witnessData.map((witness, index)=>/*#__PURE__*/ jsx_runtime.jsx(WitnessDataList, {
                                                             locale: locale,
                                                             witness: witness
                                                         }, index))
@@ -501,49 +489,6 @@ function HuwelijksplannerStep0() {
 
 /***/ }),
 
-/***/ 8981:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "g": () => (/* binding */ resolveEmbedded)
-/* harmony export */ });
-/* harmony import */ var lodash_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2945);
-/* harmony import */ var lodash_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash_clonedeepwith__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6127);
-/* harmony import */ var lodash_clonedeepwith__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_clonedeepwith__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash_isplainobject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1056);
-/* harmony import */ var lodash_isplainobject__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_isplainobject__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-/**
- * Utility to resolve references that the Conduction APIs use to refer to embedded
- * data from related objects into one object.
- *
- * {
- *   "items": ["/api/item-1"],
- *   "embedded": {
- *     "items": [
- *       { "id": 1, "value": "Hello, world!" }
- *     ]
- *   }
- * }
- *
- * Becomes:
- *
- * {
- *   "items": [{ "id": 1, "value": "Hello, world!" }],
- *   "embedded": undefined
- * }
- */ const resolveEmbedded = (data)=>lodash_clonedeepwith__WEBPACK_IMPORTED_MODULE_1___default()(data, (value)=>{
-        return lodash_isplainobject__WEBPACK_IMPORTED_MODULE_2___default()(value) && lodash_isplainobject__WEBPACK_IMPORTED_MODULE_2___default()(value["embedded"]) ? lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()(Object.create(null), value, resolveEmbedded(value["embedded"]), {
-            embedded: undefined
-        }) : undefined;
-    });
-
-
-/***/ }),
-
 /***/ 5940:
 /***/ ((module) => {
 
@@ -572,24 +517,17 @@ module.exports = require("clsx");
 
 /***/ }),
 
-/***/ 2945:
+/***/ 7727:
 /***/ ((module) => {
 
-module.exports = require("lodash.assign");
+module.exports = require("date-fns");
 
 /***/ }),
 
-/***/ 6127:
+/***/ 6517:
 /***/ ((module) => {
 
-module.exports = require("lodash.clonedeepwith");
-
-/***/ }),
-
-/***/ 1056:
-/***/ ((module) => {
-
-module.exports = require("lodash.isplainobject");
+module.exports = require("lodash");
 
 /***/ }),
 
@@ -726,7 +664,7 @@ module.exports = require("react-dom");
 var __webpack_require__ = require("../../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,277,525,707,850], () => (__webpack_exec__(6507)));
+var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,670,277,707,850], () => (__webpack_exec__(4640)));
 module.exports = __webpack_exports__;
 
 })();

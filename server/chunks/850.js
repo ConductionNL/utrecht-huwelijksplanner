@@ -370,19 +370,14 @@ const catchErrorCodes = (options, result)=>{
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "fz": () => (/* reexport */ AccommodationService),
-  "gN": () => (/* reexport */ Assent),
-  "J1": () => (/* reexport */ AssentService),
-  "N2": () => (/* reexport */ AvailabilityService),
   "SY": () => (/* reexport */ AvailabilitycheckService),
   "_H": () => (/* reexport */ HuwelijkService),
   "$Q": () => (/* reexport */ IngeschrevenpersoonService),
-  "xQ": () => (/* reexport */ KlantService),
   "fC": () => (/* reexport */ OpenAPI_OpenAPI),
   "ZD": () => (/* reexport */ SdgproductService)
 });
 
-// UNUSED EXPORTS: ApiError, Besluit, BesluitService, BesluitinformatieobjectService, BesluittypePublishService, BesluittypeService, BestandsdeelService, CalendarService, CancelError, CancelablePromise, CatalogusService, CommunicatiekanaalService, Contactmoment, ContactmomentService, EigenschapPublishService, EigenschapService, EnkelvoudiginformatieobjectDownloadService, EnkelvoudiginformatieobjectLockService, EnkelvoudiginformatieobjectReleaseService, EnkelvoudiginformatieobjectService, GebruiksrechtService, Huwelijk, InformatieObjectType, InformatieobjecttypePublishService, InformatieobjecttypeService, IngeschrevenPersoon, KlantContactmoment, KlantadresService, KlantcontactService, KlantcontactmomentService, KlantemailService, KlanttelefoonService, MedewerkerService, MessageService, MollieService, MolliewebhookService, ObjectContactmoment, ObjectcontactmomentService, ObjectinformatieobjectService, ProcestypeService, ResultaatService, ResultaatType, ResultaattypePublishService, ResultaattypeService, ResultaattypeomschrijvinggeneriekService, Rol, RolService, RolType, RoltypePublishService, RoltypeService, SendlistService, ServiceService, StatusService, StatustypePublishService, StatustypeService, SubjectIdentificatie, SubjectidentificatieService, SubscriberService, SubverblijfbuitenlandService, VerblijfadresService, VerzendingService, Zaak, ZaakBesluitenService, ZaakInformatieObject, ZaakObject, ZaakService, ZaakType, ZaakTypeInformatieObjectType, ZaakZaakeigenschappenService, ZaakbesluitService, ZaakeigenschapService, ZaakinformatieobjectService, ZaakobjectService, ZaaktypePublishService, ZaaktypeService, ZaaktypeinformatieobjecttypePublishService, ZaaktypeinformatieobjecttypeService
+// UNUSED EXPORTS: AccommodationService, ApiError, Assent, AssentService, AvailabilityService, Besluit, BesluitService, BesluitinformatieobjectService, BesluittypePublishService, BesluittypeService, BestandsdeelService, CalendarService, CancelError, CancelablePromise, CatalogusService, CommunicatiekanaalService, Contactmoment, ContactmomentService, EigenschapPublishService, EigenschapService, EnkelvoudiginformatieobjectDownloadService, EnkelvoudiginformatieobjectLockService, EnkelvoudiginformatieobjectReleaseService, EnkelvoudiginformatieobjectService, GebruiksrechtService, Huwelijk, InformatieObjectType, InformatieobjecttypePublishService, InformatieobjecttypeService, IngeschrevenPersoon, KlantContactmoment, KlantService, KlantadresService, KlantcontactService, KlantcontactmomentService, KlantemailService, KlanttelefoonService, MedewerkerService, MessageService, MollieService, MolliewebhookService, ObjectContactmoment, ObjectcontactmomentService, ObjectinformatieobjectService, ProcestypeService, ResultaatService, ResultaatType, ResultaattypePublishService, ResultaattypeService, ResultaattypeomschrijvinggeneriekService, Rol, RolService, RolType, RoltypePublishService, RoltypeService, SendlistService, ServiceService, StatusService, StatustypePublishService, StatustypeService, SubjectIdentificatie, SubjectidentificatieService, SubscriberService, SubverblijfbuitenlandService, VerblijfadresService, VerzendingService, Zaak, ZaakBesluitenService, ZaakInformatieObject, ZaakObject, ZaakService, ZaakType, ZaakTypeInformatieObjectType, ZaakZaakeigenschappenService, ZaakbesluitService, ZaakeigenschapService, ZaakinformatieobjectService, ZaakobjectService, ZaaktypePublishService, ZaaktypeService, ZaaktypeinformatieobjecttypePublishService, ZaaktypeinformatieobjecttypeService
 
 // EXTERNAL MODULE: ./src/generated/core/ApiError.ts
 var ApiError = __webpack_require__(8885);
@@ -666,7 +661,7 @@ var CancelablePromise = __webpack_require__(5202);
 })(ZaakTypeInformatieObjectType || (ZaakTypeInformatieObjectType = {}));
 
 // EXTERNAL MODULE: ./src/generated/core/request.ts
-var core_request = __webpack_require__(9413);
+var request = __webpack_require__(9413);
 ;// CONCATENATED MODULE: ./src/generated/services/AccommodationService.ts
 /* istanbul ignore file */ /* tslint:disable */ /* eslint-disable */ 
 
@@ -677,7 +672,7 @@ class AccommodationService {
      * @returns Accommodation A room or other accommodation that can facilitate people.
      * @throws ApiError
      */ static accommodationGetItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "GET",
             url: "/hp/accommodations/{id}",
             path: {
@@ -691,7 +686,7 @@ class AccommodationService {
      * @returns Accommodation A room or other accommodation that can facilitate people.
      * @throws ApiError
      */ static accommodationPutItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "PUT",
             url: "/hp/accommodations/{id}",
             path: {
@@ -707,7 +702,7 @@ class AccommodationService {
      * @returns Accommodation A room or other accommodation that can facilitate people.
      * @throws ApiError
      */ static accommodationPatchItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "PATCH",
             url: "/hp/accommodations/{id}",
             path: {
@@ -723,7 +718,7 @@ class AccommodationService {
      * @returns string A room or other accommodation that can facilitate people.
      * @throws ApiError
      */ static accommodationDeleteItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "DELETE",
             url: "/hp/accommodations/{id}",
             path: {
@@ -737,7 +732,7 @@ class AccommodationService {
      * @returns any OK
      * @throws ApiError
      */ static accommodationGetCollection({ name , accommodationProperties , place , product , maximumAttendeeCapacity , floorLevel , numberOfBathroomsTotal , wheelchairAccessible , petsAllowed , floorSize , accommodationCategory , description , id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "GET",
             url: "/hp/accommodations",
             query: {
@@ -763,7 +758,7 @@ class AccommodationService {
      * @returns Accommodation A room or other accommodation that can facilitate people.
      * @throws ApiError
      */ static accommodationPostItem({ requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "POST",
             url: "/hp/accommodations",
             body: requestBody,
@@ -781,7 +776,7 @@ class AssentService {
      * @returns Assent
      * @throws ApiError
      */ static assentGetItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "GET",
             url: "/hp/assents/{id}",
             path: {
@@ -794,7 +789,7 @@ class AssentService {
      * @returns Assent
      * @throws ApiError
      */ static assentPutItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "PUT",
             url: "/hp/assents/{id}",
             path: {
@@ -809,7 +804,7 @@ class AssentService {
      * @returns Assent
      * @throws ApiError
      */ static assentPatchItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "PATCH",
             url: "/hp/assents/{id}",
             path: {
@@ -824,7 +819,7 @@ class AssentService {
      * @returns string
      * @throws ApiError
      */ static assentDeleteItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "DELETE",
             url: "/hp/assents/{id}",
             path: {
@@ -837,7 +832,7 @@ class AssentService {
      * @returns any OK
      * @throws ApiError
      */ static assentGetCollection({ requester , name , contact , huwelijk , results , revocable , status , process , property , forwardUrl , request , description , token , id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "GET",
             url: "/hp/assents",
             query: {
@@ -863,7 +858,7 @@ class AssentService {
      * @returns Assent
      * @throws ApiError
      */ static assentPostItem({ requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "POST",
             url: "/hp/assents",
             body: requestBody,
@@ -881,7 +876,7 @@ class AvailabilityService {
      * @returns Availability
      * @throws ApiError
      */ static availabilityGetItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "GET",
             url: "/hp/availabilities/{id}",
             path: {
@@ -894,7 +889,7 @@ class AvailabilityService {
      * @returns Availability
      * @throws ApiError
      */ static availabilityPutItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "PUT",
             url: "/hp/availabilities/{id}",
             path: {
@@ -909,7 +904,7 @@ class AvailabilityService {
      * @returns Availability
      * @throws ApiError
      */ static availabilityPatchItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "PATCH",
             url: "/hp/availabilities/{id}",
             path: {
@@ -924,7 +919,7 @@ class AvailabilityService {
      * @returns string
      * @throws ApiError
      */ static availabilityDeleteItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "DELETE",
             url: "/hp/availabilities/{id}",
             path: {
@@ -937,7 +932,7 @@ class AvailabilityService {
      * @returns any OK
      * @throws ApiError
      */ static availabilityGetCollection({ id , startDate , endDate , available , resource , calendar  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "GET",
             url: "/hp/availabilities",
             query: {
@@ -955,7 +950,7 @@ class AvailabilityService {
      * @returns Availability
      * @throws ApiError
      */ static availabilityPostItem({ requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "POST",
             url: "/hp/availabilities",
             body: requestBody,
@@ -973,7 +968,7 @@ class AvailabilitycheckService {
      * @returns AvailabilityCheck
      * @throws ApiError
      */ static availabilitycheckGetItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
             url: "/hp/calendar/availabilitycheck/{id}",
             path: {
@@ -986,7 +981,7 @@ class AvailabilitycheckService {
      * @returns any OK
      * @throws ApiError
      */ static availabilitycheckGetCollection({ resourcesCould , interval , stop , start , id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
             url: "/api/hp/calendar/availabilitycheck",
             query: {
@@ -2456,7 +2451,7 @@ class HuwelijkService {
      * @returns Huwelijk
      * @throws ApiError
      */ static huwelijkGetItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
             url: "/hp/huwelijk/{id}",
             path: {
@@ -2469,7 +2464,7 @@ class HuwelijkService {
      * @returns Huwelijk
      * @throws ApiError
      */ static huwelijkPutItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PUT",
             url: "/hp/huwelijk/{id}",
             path: {
@@ -2484,7 +2479,7 @@ class HuwelijkService {
      * @returns Huwelijk
      * @throws ApiError
      */ static huwelijkPatchItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PATCH",
             url: "/hp/huwelijk/{id}",
             path: {
@@ -2499,7 +2494,7 @@ class HuwelijkService {
      * @returns string
      * @throws ApiError
      */ static huwelijkDeleteItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "DELETE",
             url: "/hp/huwelijk/{id}",
             path: {
@@ -2512,7 +2507,7 @@ class HuwelijkService {
      * @returns Huwelijk
      * @throws ApiError
      */ static huwelijkCreate({ requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "POST",
             url: "/api/zrc/v1/zaken",
             body: requestBody,
@@ -2524,7 +2519,7 @@ class HuwelijkService {
      * @returns Huwelijk
      * @throws ApiError
      */ static huwelijkGet({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
             url: "/api/zrc/v1/zaakeigenschappen?zaak=https://api.huwelijksplanner.online/api/zrc/v1/zaken/{id}",
             path: {
@@ -2537,9 +2532,24 @@ class HuwelijkService {
      * @returns Huwelijk
      * @throws ApiError
      */ static huwelijkPostEigenschap({ requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "POST",
             url: "/api/zrc/v1/zaakeigenschappen",
+            body: requestBody,
+            mediaType: "application/json"
+        });
+    }
+    /**
+     * Huwelijk
+     * @returns Huwelijk
+     * @throws ApiError
+     */ static huwelijkPatchEigenschap({ id , requestBody  }) {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
+            method: "PATCH",
+            url: "/api/zrc/v1/zaakeigenschappen/{id}",
+            path: {
+                "id": id
+            },
             body: requestBody,
             mediaType: "application/json"
         });
@@ -2549,7 +2559,7 @@ class HuwelijkService {
      * @returns any OK
      * @throws ApiError
      */ static huwelijkGetCollection({ id , status , moment , order , kosten , melding , partners , getuigen , type , ceremonie , locatie , ambtenaar , producten , checklist , instemmingGemeente , assents , zaak  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
             url: "/hp/huwelijk",
             query: {
@@ -2578,7 +2588,7 @@ class HuwelijkService {
      * @returns Huwelijk
      * @throws ApiError
      */ static huwelijkPostItem({ requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "POST",
             url: "/hp/huwelijk",
             body: requestBody,
@@ -2784,7 +2794,7 @@ class IngeschrevenpersoonService {
      * @returns IngeschrevenPersoon
      * @throws ApiError
      */ static ingeschrevenpersoonGetItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
             url: "/api/brp/ingeschrevenpersonen/{id}",
             path: {
@@ -2797,7 +2807,7 @@ class IngeschrevenpersoonService {
      * @returns IngeschrevenPersoon
      * @throws ApiError
      */ static ingeschrevenpersoonPutItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PUT",
             url: "/api/brp/ingeschrevenpersonen/{id}",
             path: {
@@ -2812,7 +2822,7 @@ class IngeschrevenpersoonService {
      * @returns IngeschrevenPersoon
      * @throws ApiError
      */ static ingeschrevenpersoonPatchItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PATCH",
             url: "/api/brp/ingeschrevenpersonen/{id}",
             path: {
@@ -2827,7 +2837,7 @@ class IngeschrevenpersoonService {
      * @returns string
      * @throws ApiError
      */ static ingeschrevenpersoonDeleteItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "DELETE",
             url: "/api/brp/ingeschrevenpersonen/{id}",
             path: {
@@ -2840,7 +2850,7 @@ class IngeschrevenpersoonService {
      * @returns any OK
      * @throws ApiError
      */ static ingeschrevenpersoonGetCollection({ partners , ouders , kinderen , verblijfstitel , gezagsverhouding , verblijfplaats , overlijden , opschortingBijhouding , geboorte , nationaliteiten , inOnderzoek , naam , kiesrecht , datumEersteInschrijvingGba , reisdocumentnummers , leeftijd , geslachtsaanduiding , geheimhoudingPersoonsgegevens , aNummer , burgerservicenummer , id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
             url: "/api/brp/ingeschrevenpersonen",
             query: {
@@ -2873,7 +2883,7 @@ class IngeschrevenpersoonService {
      * @returns IngeschrevenPersoon
      * @throws ApiError
      */ static ingeschrevenpersoonPostItem({ requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "POST",
             url: "/api/brp/ingeschrevenpersonen",
             body: requestBody,
@@ -2891,7 +2901,7 @@ class KlantService {
      * @returns Klant
      * @throws ApiError
      */ static klantGetItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "GET",
             url: "/klanten/{id}",
             path: {
@@ -2904,7 +2914,7 @@ class KlantService {
      * @returns Klant
      * @throws ApiError
      */ static klantPutItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "PUT",
             url: "/klanten/{id}",
             path: {
@@ -2919,7 +2929,7 @@ class KlantService {
      * @returns Klant
      * @throws ApiError
      */ static klantPatchItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "PATCH",
             url: "/klanten/{id}",
             path: {
@@ -2934,7 +2944,7 @@ class KlantService {
      * @returns string
      * @throws ApiError
      */ static klantDeleteItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "DELETE",
             url: "/klanten/{id}",
             path: {
@@ -2947,7 +2957,7 @@ class KlantService {
      * @returns any OK
      * @throws ApiError
      */ static klantGetCollection({ id , url , bronorganisatie , klantnummer , bedrijfsnaam , functie , websiteUrl , voornaam , voorvoegselAchternaam , achternaam , subject , subjectType , telefoonnummers , emails , adressen , subjectIdentificatie  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "GET",
             url: "/klanten",
             query: {
@@ -2975,7 +2985,7 @@ class KlantService {
      * @returns Klant
      * @throws ApiError
      */ static klantPostItem({ requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return __request(OpenAPI, {
             method: "POST",
             url: "/klanten",
             body: requestBody,
@@ -4451,7 +4461,7 @@ class SdgproductService {
      * @returns SDGProduct
      * @throws ApiError
      */ static sdgproductGetItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
             url: "/api/hp/producten/{id}",
             path: {
@@ -4464,7 +4474,7 @@ class SdgproductService {
      * @returns SDGProduct
      * @throws ApiError
      */ static sdgproductPutItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PUT",
             url: "/api/hp/producten/{id}",
             path: {
@@ -4479,7 +4489,7 @@ class SdgproductService {
      * @returns SDGProduct
      * @throws ApiError
      */ static sdgproductPatchItem({ id , requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "PATCH",
             url: "/api/hp/producten/{id}",
             path: {
@@ -4494,7 +4504,7 @@ class SdgproductService {
      * @returns string
      * @throws ApiError
      */ static sdgproductDeleteItem({ id  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "DELETE",
             url: "/api/hp/producten/{id}",
             path: {
@@ -4507,7 +4517,7 @@ class SdgproductService {
      * @returns any OK
      * @throws ApiError
      */ static sdgproductGetCollection({ id , url , uuid , upnLabel , upnUri , versie , publicatieDatum , productAanwezigheid , productValtOnder , catalogus , locaties , doelgroep , verantwoordelijkeOrganisatie , bevoegdeOrganisatie , vertalingen , gerelateerdeProducten  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "GET",
             url: "/api/hp/producten",
             query: {
@@ -4535,7 +4545,7 @@ class SdgproductService {
      * @returns SDGProduct
      * @throws ApiError
      */ static sdgproductPostItem({ requestBody  }) {
-        return (0,core_request/* request */.W)(OpenAPI_OpenAPI, {
+        return (0,request/* request */.W)(OpenAPI_OpenAPI, {
             method: "POST",
             url: "/api/hp/producten",
             body: requestBody,

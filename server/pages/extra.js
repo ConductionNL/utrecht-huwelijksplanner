@@ -122,12 +122,14 @@ function MultistepForm1() {
             _src_generated__WEBPACK_IMPORTED_MODULE_14__/* .HuwelijkService.huwelijkGet */ ._H.huwelijkGet({
                 id: marriageOptions.id.toString()
             }).then((response)=>{
+                const kosten = response.results.find((result)=>result.eigenschap === "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/416de8b8-d5d1-4f44-9a1e-1846d552292c");
                 // Kosten
-                _src_generated__WEBPACK_IMPORTED_MODULE_14__/* .HuwelijkService.huwelijkPostEigenschap */ ._H.huwelijkPostEigenschap({
+                _src_generated__WEBPACK_IMPORTED_MODULE_14__/* .HuwelijkService.huwelijkPatchEigenschap */ ._H.huwelijkPatchEigenschap({
+                    id: kosten.id,
                     requestBody: {
-                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${response.id ?? ""}`,
+                        zaak: `https://api.huwelijksplanner.online/api/zrc/v1/zaken/${marriageOptions.id ?? ""}`,
                         eigenschap: "https://api.huwelijksplanner.online/api/ztc/v1/eigenschappen/416de8b8-d5d1-4f44-9a1e-1846d552292c",
-                        waarde: getCosts(formData["marriage-certificate-kind"]).toString() ?? ""
+                        waarde: `EUR ${getCosts(formData["marriage-certificate-kind"]).toString()}` ?? 0
                     }
                 }).finally(()=>{
                     setMarriageOptions({
@@ -580,7 +582,7 @@ module.exports = import("react-loading-skeleton");;
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,636,675,277,525,707,670,850,981], () => (__webpack_exec__(320)));
+var __webpack_exports__ = __webpack_require__.X(0, [893,664,146,636,675,670,277,707,850,981], () => (__webpack_exec__(320)));
 module.exports = __webpack_exports__;
 
 })();

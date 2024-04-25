@@ -442,6 +442,8 @@ HeadingGroup.displayName = "HeadingGroup";
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6689);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4277);
+/* harmony import */ var _context_MarriageOptionsContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2670);
+
 
 
 
@@ -484,7 +486,7 @@ const LanguageToggleButtons = ({ className , headingLevel  })=>{
     const router = (0,next_router__WEBPACK_IMPORTED_MODULE_3__.useRouter)();
     const { locales , pathname , query , asPath , locale: currentLocale  } = router;
     const headingId = (0,react__WEBPACK_IMPORTED_MODULE_4__.useId)();
-    // const [marriageOptions, setMarriageOptions] = useContext(MarriageOptionsContext);
+    const [marriageOptions, setMarriageOptions] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useContext)(_context_MarriageOptionsContext__WEBPACK_IMPORTED_MODULE_6__/* .MarriageOptionsContext */ .K);
     const languages = [
         {
             label: "This page in English",
