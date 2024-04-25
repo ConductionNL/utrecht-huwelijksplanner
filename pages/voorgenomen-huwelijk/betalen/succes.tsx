@@ -1,4 +1,6 @@
 import { UtrechtBadgeStatus } from "@utrecht/web-component-library-react";
+import { addWeeks } from "date-fns";
+import _ from "lodash";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -36,11 +38,9 @@ import {
 } from "../../../src/components";
 import { PageFooterTemplate } from "../../../src/components/huwelijksplanner/PageFooterTemplate";
 import { PageHeaderTemplate } from "../../../src/components/huwelijksplanner/PageHeaderTemplate";
-import { exampleState, HuwelijksplannerState, Reservation } from "../../../src/data/huwelijksplanner-state";
 import { MarriageOptionsContext } from "../../../src/context/MarriageOptionsContext";
+import { exampleState, HuwelijksplannerState, Reservation } from "../../../src/data/huwelijksplanner-state";
 import { HuwelijkService } from "../../../src/generated";
-import { addWeeks } from "date-fns";
-import _ from "lodash";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
@@ -95,7 +95,7 @@ export default function HuwelijksplannerStep0() {
   };
 
   function parseISOString(s: any) {
-    var b = s.split(/\D+/);
+    const b = s.split(/\D+/);
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
   }
 

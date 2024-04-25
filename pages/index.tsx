@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useContext } from "react";
 import {
   ButtonLink,
   Document,
@@ -23,7 +24,6 @@ import {
 } from "../src/components";
 import { PageFooterTemplate } from "../src/components/huwelijksplanner/PageFooterTemplate";
 import { PageHeaderTemplate } from "../src/components/huwelijksplanner/PageHeaderTemplate";
-import { useContext, useEffect } from "react";
 import { MarriageOptionsContext } from "../src/context/MarriageOptionsContext";
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
