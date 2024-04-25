@@ -43,4 +43,6 @@
   --utrecht-page-content-padding-block-end: var(--leiden-size-lg);
   --utrecht-paragraph-margin-block-start: var(--leiden-size-md) !important;
   --utrecht-icon-size: 48px;
+  --utrecht-form-label-checkbox-font-weight: 400;
+  --utrecht-form-label-radio-font-weight: 400;
 }
